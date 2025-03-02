@@ -3,7 +3,7 @@
 
 ## 참고사항
 1. **main branch로는 push하지 말 것**
-> main은 develop branch에서만 PR을 통해 merge합니다.(Protection rules로 막아놨는데 혹시 모르니까...)
+- main은 develop branch에서만 PR을 통해 merge합니다.(Protection rules로 막아놨는데 혹시 모르니까...)
 2. main에 merge하려면 PR에서 1명 이상의 Approve가 필요합니다.
 3. 명령어 입력은 Android Studio의 Terminal을 추천합니다.(conflict 되었을 때 코드 수정을 편하게 하기 위해)
 ---
