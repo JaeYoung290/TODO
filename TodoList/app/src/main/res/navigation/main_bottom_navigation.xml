@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_bottom_navigation"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/navi_notice">
+
+    <fragment
+    android:id="@+id/navi_notice"
+    android:name="com.example.todolist.ui.notification.NotificationFragment"
+    android:label="@string/navi_title_notice"
+    tools:layout="@layout/fragment_notification" />
+
+    <!-- 현재 미개발
+    <fragment
+        android:id="@+id/add"
+        android:name="com.example.todolist.ui."
+        android:label="@string/navi_title_add"
+        tools:layout="@layout/" />
+    -->
+
+    <fragment
+        android:id="@+id/navi_calendar"
+        android:name="com.example.todolist.ui.calendar.CalendarFragment"
+        android:label="@string/navi_title_calendar"
+        tools:layout="@layout/fragment_calendar" />
+
+</navigation>
