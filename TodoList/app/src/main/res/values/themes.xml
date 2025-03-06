@@ -11,7 +11,7 @@
         <item name="android:paddingHorizontal">14dp</item>
         <item name="android:paddingVertical">6dp</item>
         <item name="android:stateListAnimator">@null</item>
-        <item name="android:background">@drawable/category_buttom</item>
+        <item name="android:background">@drawable/category_button</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -32,12 +32,26 @@
     </style>
 
     <style name="Theme.TodoList.KeywordButtonStyle">
-        <item name="android:background">@drawable/keyword_buttom</item>
+        <item name="android:background">@drawable/keyword_button</item>
         <item name="minWidth">0dp</item>
         <item name="android:paddingHorizontal">10dp</item>
         <item name="android:paddingVertical">6dp</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="android:textColor">@color/violet_245</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Theme.TodoList.DialogPositiveButtonStyle">
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:background">@drawable/dialog_positive_button</item>
+        <item name="android:textColor">@color/bright_black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Theme.TodoList.DialogNegativeButtonStyle">
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:background">@drawable/dialog_negative_button</item>
+        <item name="android:textColor">@color/bright_black</item>
+        <item name="android:textSize">16sp</item>
     </style>
 </resources>
