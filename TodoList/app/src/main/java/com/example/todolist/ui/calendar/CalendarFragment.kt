@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.domain.todo.model.Todo
@@ -49,6 +50,8 @@ class CalendarFragment : Fragment() {
         binding.todoList.adapter = adapter
         binding.todoList.addItemDecoration(DividerItemDecoration(context, 1))
         adapter.update(viewModel.todoList)
+
+        lockUntilNaverLogin()
     }
 
     private fun onItemClickDialog() {
@@ -61,4 +64,13 @@ class CalendarFragment : Fragment() {
         dialog.show(parentFragmentManager,"")
     }
 
+    private fun lockUntilNaverLogin(){
+        binding.todoList.isVisible = false
+    }
+
+    private fun unlockAfterNaverLogin(){
+        binding.naverLoginTv.isVisible = false
+        binding.naverLoginBtn.isVisible = false
+        binding.todoList.isVisible = true
+    }
 }

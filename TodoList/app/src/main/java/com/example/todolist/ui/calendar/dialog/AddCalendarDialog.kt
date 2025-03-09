@@ -1,45 +1,249 @@
 package com.example.todolist.ui.calendar.dialog
 
+import android.app.Activity
+import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.format.DateFormat.is24HourFormat
+import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.FrameLayout
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.util.Pair
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.setFragmentResult
+import com.example.todolist.R
 import com.example.todolist.databinding.FragmentAddCalendarDialogBinding
+import com.example.todolist.ui.main.MainActivity
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_KEYBOARD
+import com.google.android.material.timepicker.TimeFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AddCalendarDialog () : DialogFragment() {
 
-    private lateinit var binding: FragmentAddCalendarDialogBinding
+    private lateinit var binding : FragmentAddCalendarDialogBinding
+
+    private lateinit var snackbar : Snackbar
+
+    companion object {
+        const val DEFAULT_STRING = ""
+        const val DEFAULT_INT = -1
+    }
+
+    private var startDay : String = DEFAULT_STRING
+    private var endDay : String = DEFAULT_STRING
+    private var startTime : Time = Time(DEFAULT_INT,DEFAULT_INT)
+    private var endTime : Time = Time(DEFAULT_INT,DEFAULT_INT)
+
+    inner class Time(
+        var hour : Int,
+        var minute : Int
+    )
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddCalendarDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setDialog()
+        setSnackbar()
+
+        binding.innerDateBtn.setOnClickListener {
+            hideKeyboard(view)
+            showDateRangePicker()
+        }
+
+        binding.innerStartTimeBtn.setOnClickListener {
+            hideKeyboard(view)
+            showTimePicker{hour, minute ->
+                unlockInnerEndTimeBtn()
+                setStartTime(hour,minute)
+                setEndTime(hour,minute)
+            }
+        }
+
+        binding.innerEndTimeBtn.setOnClickListener {
+            hideKeyboard(view)
+            showTimePicker{hour, minute ->
+                if (checkEndTimeProper(hour,minute)) setEndTime(hour,minute)
+            }
+        }
+
+        lockInnerEndTimeBtn()
     }
 
-    fun setDialog() {
+    private fun setDialog() {
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setCancelable(false)
         binding.dialogPositiveBtn.setOnClickListener {
-            setFragmentResult("result",
-                Bundle().apply{
-                    putString("result", "")
-                })
-            dismiss()
+            if (checkInputDataProper()) {
+                uploadNaverCalendar()
+                val rootView = activity?.findViewById<View>(android.R.id.content)
+                rootView?.let {
+                    showSnackbarAtView(it, getString(R.string.add_calendar_dialog_upload_success_msg))
+                }
+                dismiss()
+            }
         }
         binding.dialogNegativeBtn.setOnClickListener {
             dismiss()
         }
+        dialog?.window?.decorView?.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val currentFocus = dialog?.currentFocus
+                if (currentFocus is EditText) {
+                    hideKeyboard(currentFocus)
+                }
+            }
+            v.performClick()
+            false
+        }
+    }
+
+    private fun hideKeyboard(view : View?) {
+        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+        view?.clearFocus()
+    }
+
+    private fun checkInputDataProper() : Boolean {
+        if(binding.innerTitleEt.text.isBlank()) {
+            showSnackbar(getString(R.string.add_calendar_dialog_not_proper_title_msg))
+            return false
+        }
+        else if(startDay == DEFAULT_STRING || endDay == DEFAULT_STRING) {
+            showSnackbar(getString(R.string.add_calendar_dialog_not_proper_date_msg))
+            return false
+        }
+        else if (startTime.hour == DEFAULT_INT || startTime.minute == DEFAULT_INT) {
+            showSnackbar(getString(R.string.add_calendar_dialog_not_proper_time_msg))
+            return false
+        }
+        return true
+    }
+
+    private fun setSnackbar() {
+        snackbar = Snackbar.make(binding.root,"",Snackbar.LENGTH_SHORT)
+        val snackbarView = snackbar.view
+        val params = snackbarView.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+    }
+    private fun showSnackbarAtView(view : View ,msg : String) {
+        val snackbar = Snackbar.make(view,msg,Snackbar.LENGTH_SHORT)
+        val snackbarView = snackbar.view
+        val params = snackbarView.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        snackbar.show()
+    }
+    private fun showSnackbar(msg : String) {
+        snackbar.setText(msg).show()
+    }
+
+    private fun lockInnerEndTimeBtn() {
+        binding.innerEndTimeBtn.isClickable = false
+        binding.innerEndTimeBtn.background = context?.let{
+            AppCompatResources.getDrawable(it, R.drawable.dialog_inner_item)
+        }
+        binding.innerEndTimeBtn.backgroundTintList = ColorStateList.valueOf(context?.getColor(R.color.bright_gray)?:0)
+        binding.innerEndTimeTv.text = getString(R.string.add_calendar_dialog_lock_msg)
+    }
+    private fun unlockInnerEndTimeBtn() {
+        binding.innerEndTimeBtn.isClickable = true
+        binding.innerEndTimeBtn.background = context?.let{
+            AppCompatResources.getDrawable(it, R.drawable.dialog_inner_button)
+        }
+        binding.innerEndTimeBtn.backgroundTintList = null
+    }
+
+    private fun checkEndTimeProper(hour: Int, minute: Int) : Boolean {
+        if(startTime.hour > hour || (startTime.hour == hour && startTime.minute > minute)) {
+            return false
+        }
+        return true
+    }
+
+    private fun showDateRangePicker() {
+        val builder = MaterialDatePicker.Builder.dateRangePicker()
+            .setTitleText("기간 선택")
+            .setSelection(
+                Pair(
+                    MaterialDatePicker.todayInUtcMilliseconds(),
+                    MaterialDatePicker.todayInUtcMilliseconds())
+            )
+        val dataRangePicker = builder.build()
+        dataRangePicker.addOnPositiveButtonClickListener {
+            val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+            startDay = dateFormat.format(Date(it.first))
+            endDay = dateFormat.format(Date(it.second))
+            updateDateText(startDay, endDay)
+        }
+        dataRangePicker.show(parentFragmentManager,dataRangePicker.toString())
+    }
+
+    private fun showTimePicker(setTime : (Int, Int) -> Unit) {
+        val isSystem24Hour = is24HourFormat(context)
+        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+
+        val builder =
+            MaterialTimePicker.Builder()
+                .setInputMode(INPUT_MODE_KEYBOARD)
+                .setTimeFormat(if (true) clockFormat else TimeFormat.CLOCK_12H)
+                .setTitleText("시간 선택")
+        val picker = builder.build()
+
+        picker.addOnPositiveButtonClickListener {
+            setTime.invoke(picker.hour, picker.minute)
+        }
+        picker.show(parentFragmentManager, picker.toString())
+    }
+
+    private fun setStartTime(hour : Int, minute : Int) {
+        startTime.hour = hour
+        startTime.minute = minute
+        updateStartTimeText(hour, minute)
+    }
+
+    private fun setEndTime(hour : Int, minute : Int) {
+        endTime.hour = hour
+        endTime.minute = minute
+        updateEndTimeText(hour, minute)
+    }
+
+    private fun updateDateText(start : String, end : String) {
+        binding.innerDateTv.text = "${start} ~ ${end}"
+    }
+
+    private fun updateStartTimeText(hour : Int, minute : Int) {
+        binding.innerStartTimeTv.text = String.format(Locale.US,"%d:%02d",hour,minute)
+    }
+
+    private fun updateEndTimeText(hour : Int, minute : Int) {
+        binding.innerEndTimeTv.text = String.format(Locale.US,"%d:%02d",hour,minute)
+    }
+
+    private fun uploadNaverCalendar() {
+
     }
 }

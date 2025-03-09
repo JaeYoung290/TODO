@@ -5,9 +5,6 @@
     <string name="navi_title_calendar">캘린더</string>
     <string name="main_title_default">타이틀</string>
     <string name="text_default">기본 텍스트</string>
-    <string name="add_calendar_dialog_title">캘린더에 추가</string>
-    <string name="add_calendar_dialog_positive_btn">확인</string>
-    <string name="add_calendar_dialog_negative_btn">취소</string>
     <string name="fragment_title_notice">공지사항</string>
     <string name="fragment_title_add">추가</string>
     <string name="fragment_title_calendar">네이버 캘린더 연동</string>
