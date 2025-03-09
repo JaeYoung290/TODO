@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false">
+        <vector android:width="200dp"
+            android:height="40dp"
+            android:viewportWidth="200"
+            android:viewportHeight="40">
+            <path
+                android:strokeColor="@color/gray"
+                android:strokeWidth="1"
+                android:pathData="M10,35 L190,35" />
+        </vector>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/gray" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+</selector>

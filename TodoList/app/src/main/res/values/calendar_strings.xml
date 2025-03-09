@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_calendar_need_naver_login">네이버 로그인이 필요합니다</string>
+    <string name="add_calendar_dialog_not_choice_default">미선택</string>
+    <string name="add_calendar_dialog_lock_msg">먼저 시작 시간을 선택해 주세요</string>
+    <string name="add_calendar_dialog_title">캘린더에 추가</string>
+    <string name="add_calendar_dialog_positive_btn">확인</string>
+    <string name="add_calendar_dialog_negative_btn">취소</string>
+    <string name="add_calendar_dialog_date_btn">기간</string>
+    <string name="add_calendar_dialog_start_time_btn">시작 시간</string>
+    <string name="add_calendar_dialog_end_time_btn">종료 시간</string>
+    <string name="add_calendar_dialog_title_et_hint">제목 (필수)</string>
+    <string name="add_calendar_dialog_detail_et_hint">설명</string>
+    <string name="add_calendar_dialog_not_proper_title_msg">제목이 설정되지 않았습니다.</string>
+    <string name="add_calendar_dialog_not_proper_date_msg">기간이 설정되지 않았습니다.</string>
+    <string name="add_calendar_dialog_not_proper_time_msg">시간이 설정되지 않았습니다.</string>
+    <string name="add_calendar_dialog_upload_success_msg">성공적으로 추가했습니다.</string>
+</resources>

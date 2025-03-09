@@ -54,4 +54,31 @@
         <item name="android:textColor">@color/bright_black</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="Theme.TodoList.DialogInnerButtonStyle">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:background">@drawable/dialog_inner_button</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:paddingLeft">14dp</item>
+        <item name="android:textColor">@color/bright_black</item>
+    </style>
+
+    <style name="Theme.TodoList.DialogInnerEditTextStyle">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxLength">20</item>
+        <item name="android:inputType">text</item>
+        <item name="android:background">@drawable/dialog_inner_edittext</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingLeft">14dp</item>
+        <item name="android:paddingRight">14dp</item>
+        <item name="android:textColor">@color/bright_black</item>
+    </style>
+    <style name="Theme.TodoList.DialogInnerMiniTextStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:textColor">@color/black_50</item>
+    </style>
 </resources>

@@ -18,6 +18,14 @@
         android:layout_height="match_parent"
         tools:context=".ui.notification.NotificationFragment">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/todo_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/activity_calendar_todo_list_item">
+        </androidx.recyclerview.widget.RecyclerView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
