@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add_calendar_need_naver_login">네이버 로그인이 필요합니다</string>
+    <string name="add_calendar_need_naver_login">네이버 로그인이 필요합니다.</string>
     <string name="add_calendar_dialog_not_choice_default">미선택</string>
     <string name="add_calendar_dialog_lock_msg">먼저 시작 시간을 선택해 주세요</string>
     <string name="add_calendar_dialog_title">캘린더에 추가</string>
