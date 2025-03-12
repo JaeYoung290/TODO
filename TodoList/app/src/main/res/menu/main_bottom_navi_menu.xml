@@ -3,12 +3,12 @@
     <item
         android:id="@+id/navi_notice"
         android:icon="@drawable/ic_notice_selector"
-        android:title="@string/navi_title_notice" />
+        android:title="@string/main_title_default" />
 
     <item
-        android:id="@+id/navi_add"
+        android:id="@+id/navi_todo"
         android:icon="@drawable/ic_add_selector"
-        android:title="@string/navi_title_add" />
+        android:title="@string/navi_title_todo" />
 
     <item
         android:id="@+id/navi_calendar"

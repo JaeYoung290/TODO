@@ -2,6 +2,7 @@ package com.example.todolist.ui.main
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -38,8 +39,9 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.navi_notice) // 수동 방식
                     binding.titleTv.text = getString(R.string.fragment_title_notice)
                 }
-                R.id.navi_add -> {
-                    binding.titleTv.text = getString(R.string.fragment_title_add)
+                R.id.navi_todo -> {
+                    navController.navigate(R.id.navi_todo)
+                    binding.titleTv.text = getString(R.string.fragment_title_todo)
                 }
                 R.id.navi_calendar -> {
                     navController.navigate(R.id.navi_calendar)
@@ -48,5 +50,10 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnItemSelectedListener true
         }
+    }
+
+    fun setBottomNavVisibility(visible: Boolean) {
+        // 키보드 올라오면 bottomNavi가 화면을 너무 가려서 잠시 숨김
+        binding.bottomNavi.visibility = if (visible) View.VISIBLE else View.GONE
     }
 }
