@@ -28,7 +28,8 @@ class TodoFragment : Fragment() {
     private lateinit var viewModel: TodoViewModel
     private lateinit var adapter: TodoAdapter
 
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val dateFormatInt = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+    private val dateFormatDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val calendar = Calendar.getInstance()
 
     override fun onCreateView(
@@ -160,7 +161,7 @@ class TodoFragment : Fragment() {
             currentView.clearFocus()
         }
 
-        val selectedDate = dateFormat.format(calendar.time).toInt()
+        val selectedDate = dateFormatInt.format(calendar.time).toInt()
         val todos = ArrayList(adapter.getItemList())
         todos.removeAt(todos.size - 1)
 
@@ -169,8 +170,8 @@ class TodoFragment : Fragment() {
     }
 
     private fun updateTodoList() {
-        val selectedDate = dateFormat.format(calendar.time).toInt()
-        binding.dateText.text = dateFormat.format(calendar.time)
+        val selectedDate = dateFormatInt.format(calendar.time).toInt()
+        binding.dateText.text = dateFormatDate.format(calendar.time)
 
         viewModel.getTodosByDate(selectedDate) { todos ->
             activity?.runOnUiThread {
