@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">TodoList</string>
     <string name="navi_title_notice">알림</string>
-    <string name="navi_title_add">추가</string>
+    <string name="navi_title_todo">ToDo</string>
     <string name="navi_title_calendar">캘린더</string>
     <string name="main_title_default">타이틀</string>
     <string name="text_default">기본 텍스트</string>
     <string name="fragment_title_notice">공지사항</string>
-    <string name="fragment_title_add">추가</string>
+    <string name="fragment_title_todo">ToDo</string>
     <string name="fragment_title_calendar">네이버 캘린더 연동</string>
+    <string name="todo_edit_hint">더블 클릭하여 입력</string>
+    <string name="todo_left_arrow">◀</string>
+    <string name="todo_date_hint">YYYY-MM-DD</string>
+    <string name="todo_right_arrow">▶</string>
 </resources>

@@ -1,19 +1,16 @@
 package com.example.todolist.ui.calendar.dialog
 
-import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -22,7 +19,6 @@ import androidx.core.util.Pair
 import androidx.fragment.app.DialogFragment
 import com.example.todolist.R
 import com.example.todolist.databinding.FragmentAddCalendarDialogBinding
-import com.example.todolist.ui.main.MainActivity
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -69,12 +65,12 @@ class AddCalendarDialog () : DialogFragment() {
         setDialog()
         setSnackbar()
 
-        binding.innerDateBtn.setOnClickListener {
+        binding.buttonInnerDate.setOnClickListener {
             hideKeyboard(view)
             showDateRangePicker()
         }
 
-        binding.innerStartTimeBtn.setOnClickListener {
+        binding.buttonInnerStartTime.setOnClickListener {
             hideKeyboard(view)
             showTimePicker{hour, minute ->
                 unlockInnerEndTimeBtn()
@@ -83,7 +79,7 @@ class AddCalendarDialog () : DialogFragment() {
             }
         }
 
-        binding.innerEndTimeBtn.setOnClickListener {
+        binding.buttonInnerEndTime.setOnClickListener {
             hideKeyboard(view)
             showTimePicker{hour, minute ->
                 if (checkEndTimeProper(hour,minute)) setEndTime(hour,minute)
@@ -97,7 +93,7 @@ class AddCalendarDialog () : DialogFragment() {
         dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setCancelable(false)
-        binding.dialogPositiveBtn.setOnClickListener {
+        binding.buttonDialogPositive.setOnClickListener {
             if (checkInputDataProper()) {
                 uploadNaverCalendar()
                 val rootView = activity?.findViewById<View>(android.R.id.content)
@@ -107,7 +103,7 @@ class AddCalendarDialog () : DialogFragment() {
                 dismiss()
             }
         }
-        binding.dialogNegativeBtn.setOnClickListener {
+        binding.buttonDialogNegative.setOnClickListener {
             dismiss()
         }
         dialog?.window?.decorView?.setOnTouchListener { v, event ->
@@ -129,7 +125,7 @@ class AddCalendarDialog () : DialogFragment() {
     }
 
     private fun checkInputDataProper() : Boolean {
-        if(binding.innerTitleEt.text.isBlank()) {
+        if(binding.editTextInnerTitle.text.isBlank()) {
             showSnackbar(getString(R.string.add_calendar_dialog_not_proper_title_msg))
             return false
         }
@@ -162,19 +158,19 @@ class AddCalendarDialog () : DialogFragment() {
     }
 
     private fun lockInnerEndTimeBtn() {
-        binding.innerEndTimeBtn.isClickable = false
-        binding.innerEndTimeBtn.background = context?.let{
+        binding.buttonInnerEndTime.isClickable = false
+        binding.buttonInnerEndTime.background = context?.let{
             AppCompatResources.getDrawable(it, R.drawable.dialog_inner_item)
         }
-        binding.innerEndTimeBtn.backgroundTintList = ColorStateList.valueOf(context?.getColor(R.color.bright_gray)?:0)
-        binding.innerEndTimeTv.text = getString(R.string.add_calendar_dialog_lock_msg)
+        binding.buttonInnerEndTime.backgroundTintList = ColorStateList.valueOf(context?.getColor(R.color.bright_gray)?:0)
+        binding.textViewInnerEndTime.text = getString(R.string.add_calendar_dialog_lock_msg)
     }
     private fun unlockInnerEndTimeBtn() {
-        binding.innerEndTimeBtn.isClickable = true
-        binding.innerEndTimeBtn.background = context?.let{
+        binding.buttonInnerEndTime.isClickable = true
+        binding.buttonInnerEndTime.background = context?.let{
             AppCompatResources.getDrawable(it, R.drawable.dialog_inner_button)
         }
-        binding.innerEndTimeBtn.backgroundTintList = null
+        binding.buttonInnerEndTime.backgroundTintList = null
     }
 
     private fun checkEndTimeProper(hour: Int, minute: Int) : Boolean {
@@ -232,15 +228,15 @@ class AddCalendarDialog () : DialogFragment() {
     }
 
     private fun updateDateText(start : String, end : String) {
-        binding.innerDateTv.text = "${start} ~ ${end}"
+        binding.textViewInnerDate.text = "${start} ~ ${end}"
     }
 
     private fun updateStartTimeText(hour : Int, minute : Int) {
-        binding.innerStartTimeTv.text = String.format(Locale.US,"%d:%02d",hour,minute)
+        binding.textViewInnerStartTime.text = String.format(Locale.US,"%d:%02d",hour,minute)
     }
 
     private fun updateEndTimeText(hour : Int, minute : Int) {
-        binding.innerEndTimeTv.text = String.format(Locale.US,"%d:%02d",hour,minute)
+        binding.textViewInnerEndTime.text = String.format(Locale.US,"%d:%02d",hour,minute)
     }
 
     private fun uploadNaverCalendar() {

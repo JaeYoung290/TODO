@@ -75,15 +75,15 @@ class CalendarFragment : Fragment() {
             clientName = "TodoList"
         )
 
-        binding.naverLoginBtn.setOnClickListener {
+        binding.buttonNaverLogin.setOnClickListener {
             loginNaver()
         }
-        binding.naverLogoutBtn.setOnClickListener {
+        binding.buttonNaverLogout.setOnClickListener {
             logoutNaver()
         }
 
         viewModel.userName.observe(this.viewLifecycleOwner, Observer { userName ->
-            binding.userNameTv.text = userName + " 님"
+            binding.textViewUserName.text = userName + " 님"
         })
     }
 
@@ -130,19 +130,19 @@ class CalendarFragment : Fragment() {
     }
 
     private fun lockUntilNaverLogin(){
-        binding.naverLoginTv.isVisible = true
-        binding.naverLoginBtn.isVisible = true
+        binding.textViewNaverLogin.isVisible = true
+        binding.buttonNaverLogin.isVisible = true
         binding.todoList.isVisible = false
-        binding.userNameTv.isVisible = false
-        binding.naverLogoutBtn.isVisible = false
+        binding.textViewUserName.isVisible = false
+        binding.buttonNaverLogout.isVisible = false
     }
 
     private fun unlockAfterNaverLogin(){
-        binding.naverLoginTv.isVisible = false
-        binding.naverLoginBtn.isVisible = false
+        binding.textViewNaverLogin.isVisible = false
+        binding.buttonNaverLogin.isVisible = false
         binding.todoList.isVisible = true
-        binding.userNameTv.isVisible = true
-        binding.naverLogoutBtn.isVisible = true
+        binding.textViewUserName.isVisible = true
+        binding.buttonNaverLogout.isVisible = true
         viewModel.userName.value = MainViewModel.NaverLoginData.userName
     }
 }

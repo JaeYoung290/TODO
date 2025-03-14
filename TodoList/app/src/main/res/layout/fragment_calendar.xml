@@ -19,7 +19,7 @@
         tools:context=".ui.notification.NotificationFragment">
 
         <TextView
-            android:id="@+id/naver_login_tv"
+            android:id="@+id/text_view_naver_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_calendar_need_naver_login"
@@ -28,10 +28,10 @@
             android:layout_marginBottom="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/naver_login_btn">
+            app:layout_constraintBottom_toTopOf="@id/button_naver_login">
         </TextView>
         <com.navercorp.nid.oauth.view.NidOAuthLoginButton
-            android:id="@+id/naver_login_btn"
+            android:id="@+id/button_naver_login"
             android:layout_width="200dp"
             android:layout_height="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/user_name_tv"
+            android:id="@+id/text_view_user_name"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text=""
@@ -51,7 +51,7 @@
             app:layout_constraintTop_toTopOf="parent">
         </TextView>
         <android.widget.Button
-            android:id="@+id/naver_logout_btn"
+            android:id="@+id/button_naver_logout"
             android:layout_width="wrap_content"
             android:layout_height="34dp"
             style="@style/Theme.TodoList.OptionButtonStyle"
@@ -71,7 +71,7 @@
             tools:listitem="@layout/activity_calendar_todo_list_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_name_tv"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_user_name"
             app:layout_constraintBottom_toBottomOf="parent">
         </androidx.recyclerview.widget.RecyclerView>
 

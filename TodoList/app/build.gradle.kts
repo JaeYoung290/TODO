@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.todolist"
-        minSdk = 34
+        minSdk = 31
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -35,6 +35,7 @@ android {
     }
 
     buildFeatures {
+        //noinspection DataBindingWithoutKapt
         dataBinding = true
         buildConfig = true
     }
@@ -58,6 +59,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.hilt.android.gradle.plugin)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -76,4 +78,9 @@ dependencies {
     // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    // todo
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 }
