@@ -37,15 +37,15 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.navi_notice -> {
                     navController.navigate(R.id.navi_notice) // 수동 방식
-                    binding.titleTv.text = getString(R.string.fragment_title_notice)
+                    binding.textViewTitle.text = getString(R.string.fragment_title_notice)
                 }
                 R.id.navi_todo -> {
                     navController.navigate(R.id.navi_todo)
-                    binding.titleTv.text = getString(R.string.fragment_title_todo)
+                    binding.textViewTitle.text = getString(R.string.fragment_title_todo)
                 }
                 R.id.navi_calendar -> {
                     navController.navigate(R.id.navi_calendar)
-                    binding.titleTv.text = getString(R.string.fragment_title_calendar)
+                    binding.textViewTitle.text = getString(R.string.fragment_title_calendar)
                 }
             }
             return@setOnItemSelectedListener true
