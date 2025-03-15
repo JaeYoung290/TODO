@@ -14,7 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todolist.database.todo.*
+import com.example.todolist.data.TodoDatabase
+import com.example.todolist.data.TodoEntity
+import com.example.todolist.data.TodoRepository
 import com.example.todolist.ui.todo.viewmodel.*
 import com.example.todolist.databinding.FragmentTodoBinding
 import com.example.todolist.ui.main.MainActivity

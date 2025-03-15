@@ -2,7 +2,8 @@ package com.example.todolist.ui.todo.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todolist.database.todo.*
+import com.example.todolist.data.TodoEntity
+import com.example.todolist.data.TodoRepository
 import kotlinx.coroutines.launch
 
 class TodoViewModel(private val repository: TodoRepository) : ViewModel() {

@@ -1,4 +1,4 @@
-package com.example.todolist.database.todo
+package com.example.todolist.data
 
 class TodoRepository(private val todoDao: TodoDao) {
     suspend fun getTodosByDate(date: Int) = todoDao.getTodosByDate(date)

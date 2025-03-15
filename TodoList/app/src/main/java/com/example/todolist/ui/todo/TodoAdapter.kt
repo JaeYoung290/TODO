@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todolist.database.todo.TodoEntity
+import com.example.todolist.data.TodoEntity
 import com.example.todolist.databinding.FragmentTodoTodoListItemBinding
 import com.example.todolist.ui.main.MainActivity
 
