@@ -18,7 +18,7 @@ interface NaverApiService {
     @POST("calendar/createSchedule.json")
     suspend fun addEvent(
         @Header("Authorization") accessToken: String,
-        @Field("calendarId") calendarId: String = "default",
+        @Field("calendarId") calendarId: String = "defaultCalendarId",
         @Field("scheduleIcalString") icalString: String
     ): NaverCalendarResponse
 }

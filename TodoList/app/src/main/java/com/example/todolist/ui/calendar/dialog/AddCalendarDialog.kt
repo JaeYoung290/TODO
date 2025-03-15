@@ -1,11 +1,13 @@
 package com.example.todolist.ui.calendar.dialog
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,16 +17,21 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.os.bundleOf
 import androidx.core.util.Pair
 import androidx.fragment.app.DialogFragment
 import com.example.todolist.R
 import com.example.todolist.databinding.FragmentAddCalendarDialogBinding
+import com.example.todolist.ui.calendar.CalendarFragment
+import com.example.todolist.ui.calendar.viewmodel.CalendarViewModel
+import com.example.todolist.ui.main.viewmodel.MainViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_KEYBOARD
 import com.google.android.material.timepicker.TimeFormat
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -64,6 +71,7 @@ class AddCalendarDialog () : DialogFragment() {
 
         setDialog()
         setSnackbar()
+        setSelectedTitle(arguments?.getString("title")?:"")
 
         binding.buttonInnerDate.setOnClickListener {
             hideKeyboard(view)
@@ -96,10 +104,6 @@ class AddCalendarDialog () : DialogFragment() {
         binding.buttonDialogPositive.setOnClickListener {
             if (checkInputDataProper()) {
                 uploadNaverCalendar()
-                val rootView = activity?.findViewById<View>(android.R.id.content)
-                rootView?.let {
-                    showSnackbarAtView(it, getString(R.string.add_calendar_dialog_upload_success_msg))
-                }
                 dismiss()
             }
         }
@@ -116,6 +120,10 @@ class AddCalendarDialog () : DialogFragment() {
             v.performClick()
             false
         }
+    }
+
+    private fun setSelectedTitle(title : String) {
+        binding.editTextInnerTitle.setText(title)
     }
 
     private fun hideKeyboard(view : View?) {
@@ -145,13 +153,6 @@ class AddCalendarDialog () : DialogFragment() {
         val snackbarView = snackbar.view
         val params = snackbarView.layoutParams as FrameLayout.LayoutParams
         params.gravity = Gravity.TOP
-    }
-    private fun showSnackbarAtView(view : View ,msg : String) {
-        val snackbar = Snackbar.make(view,msg,Snackbar.LENGTH_SHORT)
-        val snackbarView = snackbar.view
-        val params = snackbarView.layoutParams as FrameLayout.LayoutParams
-        params.gravity = Gravity.TOP
-        snackbar.show()
     }
     private fun showSnackbar(msg : String) {
         snackbar.setText(msg).show()
@@ -240,6 +241,16 @@ class AddCalendarDialog () : DialogFragment() {
     }
 
     private fun uploadNaverCalendar() {
-
+        val startTime = String.format(Locale.US,"%02d%02d00",startTime.hour,startTime.minute)
+        val endTime = String.format(Locale.US,"%02d%02d00",endTime.hour,endTime.minute)
+        val icalendarData = Bundle().apply {
+            putString("title", binding.editTextInnerTitle.text.toString())
+            putString("detail", binding.editTextInnerDetail.text.toString())
+            putString("startDay", startDay)
+            putString("endDay", endDay)
+            putString("startTime", startTime)
+            putString("endTime", endTime)
+        }
+        parentFragmentManager.setFragmentResult("icalendarData", icalendarData)
     }
 }
