@@ -19,7 +19,7 @@
         android:padding="4dp">
 
         <CheckBox
-            android:id="@+id/check_box"
+            android:id="@+id/checkbox_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="true"
@@ -29,7 +29,7 @@
             android:padding="4dp"/>
 
         <EditText
-            android:id="@+id/todo_edit"
+            android:id="@+id/edit_text_todo"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
@@ -40,18 +40,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/check_box"
+            app:layout_constraintStart_toEndOf="@+id/checkbox_checkbox"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
         <LinearLayout
-            android:id="@+id/touch_blocker"
+            android:id="@+id/linear_layout_touch_blocker"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/todo_edit"
+            app:layout_constraintStart_toStartOf="@+id/edit_text_todo"
             app:layout_constraintTop_toTopOf="parent">
 
         </LinearLayout>

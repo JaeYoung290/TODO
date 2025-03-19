@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todolist.database.todo.*
+import com.example.data.*
 import com.example.todolist.ui.todo.viewmodel.*
 import com.example.todolist.databinding.FragmentTodoBinding
 import com.example.todolist.ui.main.MainActivity
@@ -51,44 +51,44 @@ class TodoFragment : Fragment() {
 
         // RecyclerView 설정
         adapter = TodoAdapter(mutableListOf(), activity as MainActivity)
-        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerview.adapter = adapter
+        binding.recyclerViewTodoList.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewTodoList.adapter = adapter
 
-        attachSwipeToDelete(binding.recyclerview)
+        attachSwipeToDelete(binding.recyclerViewTodoList)
         updateTodoList()
 
-        binding.leftText.setOnClickListener {
+        binding.textViewLeft.setOnClickListener {
             saveTodos()
             calendar.add(Calendar.DAY_OF_YEAR, -1)
             updateTodoList()
         }
 
-        binding.rightText.setOnClickListener {
+        binding.textViewRight.setOnClickListener {
             saveTodos()
             calendar.add(Calendar.DAY_OF_YEAR, 1)
             updateTodoList()
         }
 
-        binding.dateText.setOnClickListener {
+        binding.textViewDate.setOnClickListener {
             saveTodos()
-            binding.calendar.date = calendar.timeInMillis
-            binding.calendar.visibility = View.VISIBLE
-            binding.touchBlocker.visibility = View.VISIBLE
+            binding.calendarViewCalendar.date = calendar.timeInMillis
+            binding.calendarViewCalendar.visibility = View.VISIBLE
+            binding.linearLayoutTouchBlocker.visibility = View.VISIBLE
         }
 
-        binding.calendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
+        binding.calendarViewCalendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
             calendar.set(year, month, dayOfMonth)
             updateTodoList()
-            binding.calendar.visibility = View.GONE
-            binding.touchBlocker.visibility = View.GONE
+            binding.calendarViewCalendar.visibility = View.GONE
+            binding.linearLayoutTouchBlocker.visibility = View.GONE
         }
 
-        binding.touchBlocker.setOnClickListener {
-            binding.calendar.visibility = View.GONE
-            binding.touchBlocker.visibility = View.GONE
+        binding.linearLayoutTouchBlocker.setOnClickListener {
+            binding.calendarViewCalendar.visibility = View.GONE
+            binding.linearLayoutTouchBlocker.visibility = View.GONE
         }
 
-        binding.recyclerview.setOnTouchListener { _, _ ->
+        binding.recyclerViewTodoList.setOnTouchListener { _, _ ->
             val view = requireActivity().currentFocus
             if (view is EditText) {
                 view.clearFocus()
@@ -98,8 +98,8 @@ class TodoFragment : Fragment() {
             false
         }
 
-        binding.calendar.visibility = View.GONE
-        binding.touchBlocker.visibility = View.GONE
+        binding.calendarViewCalendar.visibility = View.GONE
+        binding.linearLayoutTouchBlocker.visibility = View.GONE
     }
 
     private fun attachSwipeToDelete(recyclerView: RecyclerView) {
@@ -171,7 +171,7 @@ class TodoFragment : Fragment() {
 
     private fun updateTodoList() {
         val selectedDate = dateFormatInt.format(calendar.time).toInt()
-        binding.dateText.text = dateFormatDate.format(calendar.time)
+        binding.textViewDate.text = dateFormatDate.format(calendar.time)
 
         viewModel.getTodosByDate(selectedDate) { todos ->
             activity?.runOnUiThread {

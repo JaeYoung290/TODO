@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todolist.database.todo.TodoEntity
+import com.example.data.TodoEntity
 import com.example.todolist.databinding.FragmentTodoTodoListItemBinding
 import com.example.todolist.ui.main.MainActivity
 
@@ -32,23 +32,23 @@ class TodoAdapter(
         init {
             // 클릭 블로커 클릭 시 0.3초 동안 사라졌다가 다시 나타나도록 하기
             // 더블 클릭시 클릭 블로커가 사라지면서 EditText에 포커스 들어감
-            binding.touchBlocker.setOnClickListener {
-                binding.touchBlocker.visibility = View.INVISIBLE
+            binding.linearLayoutTouchBlocker.setOnClickListener {
+                binding.linearLayoutTouchBlocker.visibility = View.INVISIBLE
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     if (!editing) {
-                        binding.touchBlocker.visibility = View.VISIBLE
+                        binding.linearLayoutTouchBlocker.visibility = View.VISIBLE
                     }
                 }, 300) // 0.3초 뒤에 다시 나타나도록 함
             }
 
-            binding.todoEdit.setOnFocusChangeListener { _, hasFocus ->
+            binding.editTextTodo.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     editing = true
-                    binding.touchBlocker.visibility = View.GONE
+                    binding.linearLayoutTouchBlocker.visibility = View.GONE
                     // bottomNavi 숨기기
                     activity.setBottomNavVisibility(false)
-                    if (binding.todoEdit.text.toString().isEmpty()) {
+                    if (binding.editTextTodo.text.toString().isEmpty()) {
                         val newItem = TodoEntity(
                             date = itemList[0].date,
                             checked = false,
@@ -60,11 +60,11 @@ class TodoAdapter(
                 } else {
                     // 포커스가 빠져나가면 clickblocker 다시 표시
                     editing = false
-                    binding.touchBlocker.visibility = View.VISIBLE
+                    binding.linearLayoutTouchBlocker.visibility = View.VISIBLE
                     // bottomNavi 다시 표시
                     activity.setBottomNavVisibility(true)
                     // 내용이 없다면 해당 항목 삭제
-                    if (binding.todoEdit.text.toString().isEmpty()) {
+                    if (binding.editTextTodo.text.toString().isEmpty()) {
                         val item = itemList[adapterPosition]
                         itemList.removeAt(adapterPosition)
                         notifyItemRemoved(adapterPosition)
@@ -73,7 +73,7 @@ class TodoAdapter(
             }
 
             // editText의 내용이 변경될 때마다 처리
-            binding.todoEdit.addTextChangedListener(object : TextWatcher {
+            binding.editTextTodo.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
 
                 override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
@@ -104,8 +104,8 @@ class TodoAdapter(
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         val item = itemList[position]
         holder.apply {
-            binding.checkBox.isChecked = item.checked
-            binding.todoEdit.setText(item.todo)
+            binding.checkboxCheckbox.isChecked = item.checked
+            binding.editTextTodo.setText(item.todo)
         }
     }
 
