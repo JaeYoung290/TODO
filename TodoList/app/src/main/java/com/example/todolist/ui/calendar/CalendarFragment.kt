@@ -7,13 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.domain.todo.model.Todo
 import com.example.todolist.BuildConfig
 import com.example.todolist.databinding.FragmentCalendarBinding
 import com.example.todolist.ui.calendar.adapter.CalendarTodoListRecyclerAdapter
@@ -56,10 +54,7 @@ class CalendarFragment : Fragment() {
 
         setSnackbar()
 
-        // 임시 test 용 item
-        viewModel.todoList.add(Todo("Test", false, "Test"))
-        viewModel.todoList.add(Todo("Test", false, "Test"))
-        viewModel.todoList.add(Todo("Test", false, "Test"))
+        setTodoList()
 
         adapter = CalendarTodoListRecyclerAdapter(viewModel.todoList, object : CalendarTodoListRecyclerAdapter.OnItemClickListener{
             override fun onItemClick(title : String) {
@@ -105,6 +100,10 @@ class CalendarFragment : Fragment() {
         })
 
         setFragmentResultListener()
+    }
+
+    private fun setTodoList() {
+        viewModel.setTodoList()
     }
 
     private fun setFragmentResultListener() {

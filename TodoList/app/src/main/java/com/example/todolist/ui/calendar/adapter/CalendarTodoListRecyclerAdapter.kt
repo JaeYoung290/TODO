@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.todo.model.Todo
+import com.example.data.TodoEntity
 import com.example.todolist.databinding.ActivityCalendarTodoListItemBinding
 import com.example.todolist.ui.calendar.adapter.diffutil.TodoDiffUtil
 
 class CalendarTodoListRecyclerAdapter (
-    private var items : List<Todo>,
+    private var items : List<TodoEntity>,
     private var listener : OnItemClickListener
 ) : RecyclerView.Adapter<CalendarTodoListRecyclerAdapter.ViewHolder>() {
     inner class ViewHolder(var binding: ActivityCalendarTodoListItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -25,10 +25,10 @@ class CalendarTodoListRecyclerAdapter (
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.apply {
-            binding.textViewTodoTitle.text = items[position].title
-            binding.textViewTodoDate.text = items[position].date
+            binding.textViewTodoTitle.text = items[position].todo
+            binding.textViewTodoDate.text = items[position].date.toString()
             binding.todoItemLy.setOnClickListener{
-                listener.onItemClick(items[position].title)
+                listener.onItemClick(items[position].todo)
             }
         }
     }
@@ -37,7 +37,7 @@ class CalendarTodoListRecyclerAdapter (
         return items.size
     }
 
-    fun update(newItems: List<Todo>) {
+    fun update(newItems: List<TodoEntity>) {
         val diffUtil = TodoDiffUtil(items, newItems)
         val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffUtil)
         items = newItems

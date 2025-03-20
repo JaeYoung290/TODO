@@ -2,6 +2,7 @@ package com.example.data.naver.calendar.repository
 
 import android.util.Log
 import com.example.data.naver.calendar.NaverApiClient
+import com.example.domain.naver.calendar.repository.NaverApiRepository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.UUID

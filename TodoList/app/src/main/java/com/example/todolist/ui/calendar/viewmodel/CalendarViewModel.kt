@@ -4,19 +4,20 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.data.TodoEntity
+import com.example.data.TodoRepository
 import com.example.domain.naver.calendar.NaverApiUseCase
-import com.example.domain.todo.model.Todo
 import com.example.todolist.ui.main.viewmodel.MainViewModel
-import com.google.android.material.textfield.TextInputLayout.EndIconMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
-    private val naverApiUseCase: NaverApiUseCase
+    private val naverApiUseCase: NaverApiUseCase,
+    private val todoRepository: TodoRepository
 ) : ViewModel() {
-    var todoList : MutableList<Todo> = mutableListOf()
+    var todoList : MutableList<TodoEntity> = mutableListOf()
     var userName = MutableLiveData<String>("---")
     var addScheduleSuccess = MutableLiveData<Boolean?>(null)
 
@@ -55,6 +56,12 @@ class CalendarViewModel @Inject constructor(
             }
         }else {
             Log.e("MY_TAG","error null accessToken")
+        }
+    }
+
+    fun setTodoList() {
+        viewModelScope.launch {
+            todoList.addAll(todoRepository.getTodosAll())
         }
     }
 }

@@ -43,6 +43,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(project(mapOf("path" to ":domain")))
     // retrofit
     implementation (libs.retrofit)
     implementation (libs.gson)

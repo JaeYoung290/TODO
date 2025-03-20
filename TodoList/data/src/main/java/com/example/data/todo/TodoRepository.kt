@@ -2,6 +2,8 @@ package com.example.data
 
 
 class TodoRepository(private val todoDao: TodoDao) {
+    suspend fun getTodosAll() = todoDao.getTodosAll()
+
     suspend fun getTodosByDate(date: Int) = todoDao.getTodosByDate(date)
 
     suspend fun getTodosByDateAndChecked(date: Int, checked: Boolean) =

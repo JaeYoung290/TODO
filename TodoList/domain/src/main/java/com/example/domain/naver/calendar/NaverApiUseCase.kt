@@ -1,7 +1,6 @@
 package com.example.domain.naver.calendar
 
-import android.util.Log
-import com.example.data.naver.calendar.repository.NaverApiRepository
+import com.example.domain.naver.calendar.repository.NaverApiRepository
 import javax.inject.Inject
 
 class NaverApiUseCase @Inject constructor (

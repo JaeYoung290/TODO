@@ -1,4 +1,4 @@
-package com.example.data.naver.calendar.repository
+package com.example.domain.naver.calendar.repository
 
 interface NaverApiRepository {
     suspend fun getUserNickname(accessToken : String) : String
