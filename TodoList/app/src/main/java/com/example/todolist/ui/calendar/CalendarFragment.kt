@@ -2,9 +2,12 @@ package com.example.todolist.ui.calendar
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,6 +20,7 @@ import com.example.todolist.ui.calendar.adapter.CalendarTodoListRecyclerAdapter
 import com.example.todolist.ui.calendar.dialog.AddCalendarDialog
 import com.example.todolist.ui.calendar.viewmodel.CalendarViewModel
 import com.example.todolist.ui.main.viewmodel.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +33,8 @@ class CalendarFragment : Fragment() {
     private val viewModel : CalendarViewModel by viewModels()
 
     private lateinit var adapter: CalendarTodoListRecyclerAdapter
+
+    private lateinit var snackbar : Snackbar
 
     companion object {
         private const val CLIENT_ID = BuildConfig.NAVER_CLIENT_ID
@@ -47,15 +53,17 @@ class CalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setSnackbar()
+
         // 임시 test 용 item
         viewModel.todoList.add(Todo("Test", false, "Test"))
         viewModel.todoList.add(Todo("Test", false, "Test"))
         viewModel.todoList.add(Todo("Test", false, "Test"))
 
         adapter = CalendarTodoListRecyclerAdapter(viewModel.todoList, object : CalendarTodoListRecyclerAdapter.OnItemClickListener{
-            override fun onItemClick() {
-                super.onItemClick()
-                onItemClickDialog()
+            override fun onItemClick(title : String) {
+                onItemClickDialog(title)
             }
         })
         binding.todoList.adapter = adapter
@@ -85,15 +93,41 @@ class CalendarFragment : Fragment() {
         viewModel.userName.observe(this.viewLifecycleOwner, Observer { userName ->
             binding.textViewUserName.text = userName + " 님"
         })
+
+        viewModel.addScheduleSuccess.observe(this.viewLifecycleOwner, Observer { isSuccess ->
+            isSuccess?.let{
+                if(isSuccess) {
+                    showSnackbar("캘린더 추가 완료")
+                }else {
+                    showSnackbar("캘린더 추가에 실패했습니다.")
+                }
+            }
+        })
+
+        setFragmentResultListener()
     }
 
-    private fun onItemClickDialog() {
-        val dialog = AddCalendarDialog()
-        parentFragmentManager.setFragmentResultListener("result", this) {Key, bundle ->
-            val result = bundle.getString("result")
-            result?.run{
-            }
+    private fun setFragmentResultListener() {
+        parentFragmentManager.setFragmentResultListener(
+            "icalendarData", this.viewLifecycleOwner
+        ) { _, bundle ->
+            viewModel.addNaverCalendarSchedule(
+                bundle.getString("title")?:"",
+                bundle.getString("detail")?:"",
+                bundle.getString("startDay")?:"",
+                bundle.getString("endDay")?:"",
+                bundle.getString("startTime")?:"",
+                bundle.getString("endTime")?:""
+            )
         }
+    }
+
+    private fun onItemClickDialog(title : String) {
+        val bundle = Bundle().apply {
+            putString("title",title)
+        }
+        val dialog = AddCalendarDialog()
+        dialog.arguments = bundle
         dialog.show(parentFragmentManager,"")
     }
 
@@ -144,5 +178,14 @@ class CalendarFragment : Fragment() {
         binding.textViewUserName.isVisible = true
         binding.buttonNaverLogout.isVisible = true
         viewModel.userName.value = MainViewModel.NaverLoginData.userName
+    }
+    private fun setSnackbar() {
+        snackbar = Snackbar.make(binding.root,"", Snackbar.LENGTH_SHORT)
+        val snackbarView = snackbar.view
+        val params = snackbarView.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+    }
+    private fun showSnackbar(msg : String) {
+        snackbar.setText(msg).show()
     }
 }

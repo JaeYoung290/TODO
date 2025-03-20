@@ -20,7 +20,7 @@ class CalendarTodoListRecyclerAdapter (
     }
 
     interface OnItemClickListener {
-        fun onItemClick() {}
+        fun onItemClick(title : String) {}
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -28,7 +28,7 @@ class CalendarTodoListRecyclerAdapter (
             binding.textViewTodoTitle.text = items[position].title
             binding.textViewTodoDate.text = items[position].date
             binding.todoItemLy.setOnClickListener{
-                listener.onItemClick()
+                listener.onItemClick(items[position].title)
             }
         }
     }
