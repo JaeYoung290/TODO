@@ -71,7 +71,7 @@ class AddCalendarDialog () : DialogFragment() {
 
         setDialog()
         setSnackbar()
-        setSelectedTitle(arguments?.getString("title")?:"")
+        setDefaultInfo()
 
         binding.buttonInnerDate.setOnClickListener {
             hideKeyboard(view)
@@ -95,6 +95,14 @@ class AddCalendarDialog () : DialogFragment() {
         }
 
         lockInnerEndTimeBtn()
+    }
+    private fun setDefaultInfo() {
+        binding.editTextInnerTitle.setText(arguments?.getString("title")?:"")
+        arguments?.getString("date")?.let {
+            startDay = it
+            endDay = startDay
+            updateDateText(startDay, endDay)
+        }
     }
 
     private fun setDialog() {
@@ -120,10 +128,6 @@ class AddCalendarDialog () : DialogFragment() {
             v.performClick()
             false
         }
-    }
-
-    private fun setSelectedTitle(title : String) {
-        binding.editTextInnerTitle.setText(title)
     }
 
     private fun hideKeyboard(view : View?) {

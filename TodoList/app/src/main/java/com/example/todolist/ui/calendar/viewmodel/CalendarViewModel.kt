@@ -9,6 +9,7 @@ import com.example.data.TodoRepository
 import com.example.domain.naver.calendar.NaverApiUseCase
 import com.example.todolist.ui.main.viewmodel.MainViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,13 +21,14 @@ class CalendarViewModel @Inject constructor(
     var todoList : MutableList<TodoEntity> = mutableListOf()
     var userName = MutableLiveData<String>("---")
     var addScheduleSuccess = MutableLiveData<Boolean?>(null)
+    var setTodoListSuccess = MutableLiveData<Boolean?>(null)
 
     fun getNaverUserName() {
         val accessToken = MainViewModel.NaverLoginData.accessToken
         if(accessToken != null) {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 MainViewModel.NaverLoginData.userName = naverApiUseCase.getNaverUserNickname(accessToken)
-                userName.value = MainViewModel.NaverLoginData.userName
+                userName.postValue(MainViewModel.NaverLoginData.userName)
             }
         }else {
             Log.e("MY_TAG","error null accessToken")
@@ -43,8 +45,8 @@ class CalendarViewModel @Inject constructor(
     ) {
         val accessToken = MainViewModel.NaverLoginData.accessToken
         if(accessToken != null) {
-            viewModelScope.launch {
-                addScheduleSuccess.value = naverApiUseCase.addNaverCalendarSchedule(
+            viewModelScope.launch(Dispatchers.IO) {
+                addScheduleSuccess.postValue(naverApiUseCase.addNaverCalendarSchedule(
                     accessToken,
                     title,
                     detail,
@@ -52,7 +54,7 @@ class CalendarViewModel @Inject constructor(
                     endDate,
                     startTime,
                     endTime
-                )
+                ))
             }
         }else {
             Log.e("MY_TAG","error null accessToken")
@@ -60,8 +62,8 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun setTodoList() {
-        viewModelScope.launch {
-            todoList.addAll(todoRepository.getTodosAll())
+        viewModelScope.launch(Dispatchers.IO) {
+            setTodoListSuccess.postValue(todoList.addAll(todoRepository.getTodosAll()))
         }
     }
 }

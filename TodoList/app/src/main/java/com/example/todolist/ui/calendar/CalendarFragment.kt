@@ -53,17 +53,15 @@ class CalendarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setSnackbar()
+        binding.progressbarTodoList.isVisible = false
 
-        setTodoList()
-
-        adapter = CalendarTodoListRecyclerAdapter(viewModel.todoList, object : CalendarTodoListRecyclerAdapter.OnItemClickListener{
-            override fun onItemClick(title : String) {
-                onItemClickDialog(title)
+        adapter = CalendarTodoListRecyclerAdapter(viewModel.todoList.toList(), object : CalendarTodoListRecyclerAdapter.OnItemClickListener{
+            override fun onItemClick(title : String, date : String) {
+                onItemClickDialog(title, date)
             }
         })
         binding.todoList.adapter = adapter
         binding.todoList.addItemDecoration(DividerItemDecoration(context, 1))
-        adapter.update(viewModel.todoList)
 
         if(!isLogined()){
             lockUntilNaverLogin()
@@ -98,11 +96,22 @@ class CalendarFragment : Fragment() {
                 }
             }
         })
-
+        viewModel.setTodoListSuccess.observe(this.viewLifecycleOwner, Observer { isSuccess ->
+            isSuccess?.let{
+                if(isSuccess) {
+                    adapter.update(viewModel.todoList.toList())
+                    Log.e("MY","${viewModel.todoList}")
+                    binding.progressbarTodoList.isVisible = false
+                }else {
+                    showSnackbar("todoList load 실패")
+                }
+            }
+        })
         setFragmentResultListener()
     }
 
     private fun setTodoList() {
+        binding.progressbarTodoList.isVisible = true
         viewModel.setTodoList()
     }
 
@@ -121,9 +130,10 @@ class CalendarFragment : Fragment() {
         }
     }
 
-    private fun onItemClickDialog(title : String) {
+    private fun onItemClickDialog(title : String, date : String) {
         val bundle = Bundle().apply {
             putString("title",title)
+            putString("date",date)
         }
         val dialog = AddCalendarDialog()
         dialog.arguments = bundle
@@ -177,6 +187,7 @@ class CalendarFragment : Fragment() {
         binding.textViewUserName.isVisible = true
         binding.buttonNaverLogout.isVisible = true
         viewModel.userName.value = MainViewModel.NaverLoginData.userName
+        setTodoList()
     }
     private fun setSnackbar() {
         snackbar = Snackbar.make(binding.root,"", Snackbar.LENGTH_SHORT)
