@@ -1,11 +1,16 @@
 package com.example.todolist.module
 
 import android.content.Context
+import androidx.room.Room
 import com.example.data.TodoDao
 import com.example.data.TodoDatabase
 import com.example.data.TodoRepository
 import com.example.data.naver.calendar.repository.NaverApiRepositoryImpl
+import com.example.data.notice.repository.NoticeRepositoryImpl
+import com.example.data.notice.source.notice.NoticeDao
+import com.example.data.notice.source.notice.NoticeDatabase
 import com.example.domain.naver.calendar.repository.NaverApiRepository
+import com.example.domain.notice.repository.NoticeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,5 +39,18 @@ object AppModule {
         todoDao: TodoDao
     ) : TodoRepository {
         return TodoRepository(todoDao)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNoticeDao(@ApplicationContext context: Context): NoticeDao {
+        val db = Room.databaseBuilder(context, NoticeDatabase::class.java, "notice_db").build()
+        return db.noticeDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideNoticeRepository(noticeDao: NoticeDao): NoticeRepository {
+        return NoticeRepositoryImpl(noticeDao)
     }
 }
