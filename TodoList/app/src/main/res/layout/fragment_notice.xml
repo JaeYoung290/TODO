@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.todolist.ui.notice.viewmodel.NoticeViewModel" />
+
+        <variable
+            name="fragment"
+            type="com.example.todolist.ui.notice.NoticeFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.notice.NoticeFragment">
+
+        <HorizontalScrollView
+            android:id="@+id/hsv_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:fadingEdgeLength="40dp"
+            android:requiresFadingEdge="horizontal"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <android.widget.Button
+                    android:id="@+id/btn_general_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/category_button"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:stateListAnimator="@null"
+                    android:text="일반 공지"
+                    android:textColor="@color/category_button_text_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.widget.Button
+                    android:id="@+id/btn_scholarship_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/category_button"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:stateListAnimator="@null"
+                    android:text="장학 공지"
+                    android:textColor="@color/category_button_text_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/btn_general_notice"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.widget.Button
+                    android:id="@+id/btn_academic_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/category_button"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:stateListAnimator="@null"
+                    android:text="학사 공지"
+                    android:textColor="@color/category_button_text_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/btn_scholarship_notice"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.widget.Button
+                    android:id="@+id/btn_employment_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/category_button"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:stateListAnimator="@null"
+                    android:text="채용 공지"
+                    android:textColor="@color/category_button_text_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/btn_academic_notice"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.widget.Button
+                    android:id="@+id/btn_favorites_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/category_button"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:stateListAnimator="@null"
+                    android:text="즐겨찾기"
+                    android:textColor="@color/category_button_text_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/btn_employment_notice"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.widget.Button
+                    android:id="@+id/btn_hidden_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/category_button"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:stateListAnimator="@null"
+                    android:text="숨겨진 공지"
+                    android:textColor="@color/category_button_text_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/btn_favorites_notice"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </HorizontalScrollView>
+
+        <ToggleButton
+            android:id="@+id/btn_filtering"
+            style="@style/Theme.TodoList.Category_button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:checked="false"
+            android:stateListAnimator="@null"
+            android:textColor="@color/option_button_text_color"
+            android:textOff="필터링"
+            android:textOn="필터링"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hsv_category" />
+
+        <android.widget.Button
+            android:id="@+id/btn_date"
+            style="@style/Theme.TodoList.Category_button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="6dp"
+            android:stateListAnimator="@null"
+            android:text="날짜"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/btn_filtering"
+            app:layout_constraintTop_toBottomOf="@+id/hsv_category" />
+
+        <android.widget.Button
+            android:id="@+id/btn_add_keyword"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/keyword_button"
+            android:minWidth="0dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="6dp"
+            android:stateListAnimator="@null"
+            android:text="키워드 추가"
+            android:textColor="@color/violet_245"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/btn_date"
+            app:layout_constraintTop_toBottomOf="@+id/hsv_category" />
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_sort"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_add_keyword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_add_keyword" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_notice"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="13dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_filtering" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -16,7 +16,7 @@
         android:id="@+id/calendar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.notification.NotificationFragment">
+        tools:context=".ui.notice.NoticeFragment">
 
         <TextView
             android:id="@+id/text_view_naver_login"
