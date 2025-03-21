@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.TodoEntity
 import com.example.data.TodoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
+@HiltViewModel
+class TodoViewModel @Inject constructor(private val repository: TodoRepository) : ViewModel() {
 
     fun getTodosByDate(date: Int, callback: (List<TodoEntity>) -> Unit) {
         viewModelScope.launch {

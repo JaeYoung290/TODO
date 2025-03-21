@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,14 +18,16 @@ import com.example.data.*
 import com.example.todolist.ui.todo.viewmodel.*
 import com.example.todolist.databinding.FragmentTodoBinding
 import com.example.todolist.ui.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class TodoFragment : Fragment() {
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: TodoViewModel
+    private val viewModel: TodoViewModel by viewModels()
     private lateinit var adapter: TodoAdapter
 
     private val dateFormatInt = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
@@ -42,12 +44,6 @@ class TodoFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // ViewModel 설정
-        val database = TodoDatabase.getDatabase(requireContext())
-        val repository = TodoRepository(database.todoDao())
-        val factory = TodoViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory)[TodoViewModel::class.java]
 
         // RecyclerView 설정
         adapter = TodoAdapter(mutableListOf(), activity as MainActivity)
