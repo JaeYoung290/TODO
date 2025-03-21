@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_calendar_need_naver_login">네이버 로그인이 필요합니다.</string>
+    <string name="add_calendar_logout_text">로그아웃</string>
     <string name="add_calendar_dialog_not_choice_default">미선택</string>
     <string name="add_calendar_dialog_lock_msg">먼저 시작 시간을 선택해 주세요</string>
     <string name="add_calendar_dialog_title">캘린더에 추가</string>
@@ -15,4 +16,5 @@
     <string name="add_calendar_dialog_not_proper_date_msg">기간이 설정되지 않았습니다.</string>
     <string name="add_calendar_dialog_not_proper_time_msg">시간이 설정되지 않았습니다.</string>
     <string name="add_calendar_dialog_upload_success_msg">성공적으로 추가했습니다.</string>
+    <string name="add_calendar_todolist_item_date">2025-00-00</string>
 </resources>

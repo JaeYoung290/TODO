@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
+    @HiltViewModel
 class CalendarViewModel @Inject constructor(
     private val naverApiUseCase: NaverApiUseCase,
     private val todoRepository: TodoRepository

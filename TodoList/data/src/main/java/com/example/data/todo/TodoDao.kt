@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Dao
 interface TodoDao {
-    @Query("SELECT * FROM todo_table")
+    @Query("SELECT * FROM todo_table ORDER BY date ASC")
     suspend fun getTodosAll(): List<TodoEntity>
 
     @Query("SELECT * FROM todo_table WHERE date = :date")

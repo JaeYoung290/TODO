@@ -103,7 +103,8 @@ class CalendarFragment : Fragment() {
                     Log.e("MY","${viewModel.todoList}")
                     binding.progressbarTodoList.isVisible = false
                 }else {
-                    showSnackbar("todoList load 실패")
+                    showSnackbar("해당되는 todoList가 없습니다.")
+                    binding.progressbarTodoList.isVisible = false
                 }
             }
         })
@@ -170,6 +171,7 @@ class CalendarFragment : Fragment() {
         MainViewModel.NaverLoginData.accessToken = null
         MainViewModel.NaverLoginData.refreshToken = null
         MainViewModel.NaverLoginData.userName = null
+        viewModel.todoList = mutableListOf()
     }
 
     private fun lockUntilNaverLogin(){

@@ -5,6 +5,8 @@ import com.example.data.TodoDao
 import com.example.data.TodoDatabase
 import com.example.data.TodoRepository
 import com.example.data.naver.calendar.repository.NaverApiRepositoryImpl
+import com.example.data.naver.calendar.repository.remote.datasource.calendar.RemoteCalendarDataSourceImpl
+import com.example.data.naver.calendar.repository.remote.datasource.user.RemoteUserDataSourceImpl
 import com.example.domain.naver.calendar.repository.NaverApiRepository
 import dagger.Module
 import dagger.Provides
@@ -18,8 +20,11 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun provideNaverApiRepository() : NaverApiRepository {
-        return NaverApiRepositoryImpl()
+    fun provideNaverApiRepository(
+        remoteUserDataSourceImpl: RemoteUserDataSourceImpl,
+        remoteCalendarDataSourceImpl: RemoteCalendarDataSourceImpl
+    ) : NaverApiRepository {
+        return NaverApiRepositoryImpl(remoteUserDataSourceImpl, remoteCalendarDataSourceImpl)
     }
 
     @Singleton
@@ -34,5 +39,17 @@ object AppModule {
         todoDao: TodoDao
     ) : TodoRepository {
         return TodoRepository(todoDao)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoteUserDataSource() : RemoteUserDataSourceImpl {
+        return RemoteUserDataSourceImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoteCalendarDataSource() : RemoteCalendarDataSourceImpl {
+        return RemoteCalendarDataSourceImpl()
     }
 }

@@ -31,7 +31,7 @@
             android:maxLines="2"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="2025.00.00"
+            android:text="@string/add_calendar_todolist_item_date"
             android:textSize="13sp"
             android:textStyle="bold"
             android:textColor="@color/black_50"
