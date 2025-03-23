@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.TodoEntity
-import com.example.data.TodoRepository
 import com.example.domain.naver.calendar.NaverApiUseCase
+import com.example.domain.todo.TodoEntity
+import com.example.domain.todo.repository.TodoRepository
 import com.example.todolist.ui.main.viewmodel.MainViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

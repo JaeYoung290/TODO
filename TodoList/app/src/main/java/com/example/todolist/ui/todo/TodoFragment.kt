@@ -11,33 +11,32 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.data.todo.TodoDatabase
+import com.example.data.todo.TodoRepositoryImpl
 import com.example.domain.todo.TodoEntity
 import com.example.domain.todo.repository.TodoRepository
 import com.example.todolist.ui.todo.viewmodel.*
 import com.example.todolist.databinding.FragmentTodoBinding
 import com.example.todolist.ui.main.MainActivity
-import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class TodoFragment : Fragment() {
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: TodoViewModel by viewModels()
+    private lateinit var viewModel: TodoViewModel
     private lateinit var adapter: TodoAdapter
 
     private val dateFormatInt = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
     private val dateFormatDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val calendar = Calendar.getInstance()
 
-    // test
     @Inject
     lateinit var repository: TodoRepository
 
@@ -45,14 +44,18 @@ class TodoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
-        // test
-        Log.d("HiltTest", "TodoRepository 주입됨: $repository")
         return binding.root
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // ViewModel 설정
+        val database = TodoDatabase.getDatabase(requireContext())
+        val repository = TodoRepositoryImpl(database.todoDao())
+        val factory = TodoViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, factory)[TodoViewModel::class.java]
 
         // RecyclerView 설정
         adapter = TodoAdapter(mutableListOf(), activity as MainActivity)

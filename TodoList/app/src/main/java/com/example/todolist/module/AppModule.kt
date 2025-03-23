@@ -2,9 +2,6 @@ package com.example.todolist.module
 
 import android.content.Context
 import androidx.room.Room
-import com.example.data.TodoDao
-import com.example.data.TodoDatabase
-import com.example.data.TodoRepository
 import com.example.data.naver.calendar.repository.NaverApiRepositoryImpl
 import com.example.data.notice.repository.NoticeRepositoryImpl
 import com.example.data.notice.repository.WebPageRepositoryImpl
@@ -12,6 +9,9 @@ import com.example.data.notice.source.notice.NoticeDao
 import com.example.data.notice.source.notice.NoticeDatabase
 import com.example.data.naver.calendar.repository.remote.datasource.calendar.RemoteCalendarDataSourceImpl
 import com.example.data.naver.calendar.repository.remote.datasource.user.RemoteUserDataSourceImpl
+import com.example.data.todo.TodoDao
+import com.example.data.todo.TodoDatabase
+import com.example.data.todo.TodoRepositoryImpl
 import com.example.domain.naver.calendar.repository.NaverApiRepository
 import com.example.domain.notice.repository.NoticeRepository
 import com.example.domain.notice.repository.WebPageRepository
@@ -25,6 +25,7 @@ import com.example.domain.notice.useCase.database.GetNoticeByCategory
 import com.example.domain.notice.useCase.webPage.OpenUrlByBrowser
 import com.example.domain.notice.useCase.webPage.ParseWebPages
 import com.example.domain.notice.useCase.webPage.WebPageUseCases
+import com.example.domain.todo.repository.TodoRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,7 +56,7 @@ object AppModule {
     fun provideTodoRepository(
         todoDao: TodoDao
     ) : TodoRepository {
-        return TodoRepository(todoDao)
+        return TodoRepositoryImpl(todoDao)
     }
 
     @Singleton
