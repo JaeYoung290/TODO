@@ -1,27 +1,24 @@
-package com.example.data.notice.source.notice
+package com.example.data.notice.source.keyword
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
-import com.google.gson.Gson
 
-@Database(entities = [NoticeEntity::class, NoticeFts::class], version = 2)
-abstract class NoticeDatabase : RoomDatabase() {
-    abstract fun noticeDao(): NoticeDao
+@Database(entities = [KeywordEntity::class], version = 1)
+abstract class KeywordDatabase: RoomDatabase() {
+    abstract fun keywordDao(): KeywordDao
 
     companion object {
         @Volatile
-        private var database: NoticeDatabase? = null
+        private var database: KeywordDatabase? = null
 
-        fun getDatabase(context: Context): NoticeDatabase {
+        fun getDatabase(context: Context): KeywordDatabase {
             return database ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    NoticeDatabase::class.java,
-                    "notice_Database"
+                    KeywordDatabase::class.java,
+                    "keyword_Database"
                 )
                     .fallbackToDestructiveMigration()
                     .build()

@@ -13,13 +13,15 @@ import com.example.todolist.ui.notice.viewmodel.NoticeViewModel
 class NoticeRecyclerAdapter(var notices: List<Notice>, private val viewModel: NoticeViewModel) :
     RecyclerView.Adapter<NoticeRecyclerAdapter.NoticeViewHolder>() {
 
-
     class NoticeViewHolder(private val binding: FragmentNoticeListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(notice: Notice, viewModel: NoticeViewModel) {
             binding.notice = notice
             binding.executePendingBindings()
             binding.viewModel = viewModel
+            binding.root.setOnClickListener {
+                viewModel.onItemClicked(notice)
+            }
         }
     }
 

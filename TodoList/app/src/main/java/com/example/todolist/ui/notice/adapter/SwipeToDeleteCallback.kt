@@ -40,6 +40,7 @@ class SwipeToDeleteCallback(
             adapter.removeItem(position)
         } else {
             viewModel.deleteNoticeById(item.id.toInt(), true)
+            viewModel.favoriteNoticeById(item.id.toInt(), isFavorite = false)
             adapter.removeItem(position)
         }
     }

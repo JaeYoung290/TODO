@@ -18,6 +18,7 @@
         android:id="@+id/notice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         tools:context=".ui.notice.NoticeFragment">
 
         <HorizontalScrollView
@@ -180,21 +181,81 @@
             app:layout_constraintTop_toBottomOf="@+id/hsv_category" />
 
         <ImageButton
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:id="@+id/ib_sort"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/ic_sort"
+            android:background="@drawable/ic_sort_background_selector"
+            android:padding="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_sort"
             app:layout_constraintBottom_toBottomOf="@+id/btn_add_keyword"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/btn_add_keyword" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sort_options_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/btn_filtering"
+            app:layout_constraintTop_toBottomOf="@+id/ib_sort">
+
+            <RadioGroup
+                android:id="@+id/rg_option_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/rb_date"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <RadioButton
+                    android:id="@+id/rb_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="날짜" />
+
+                <RadioButton
+                    android:id="@+id/rb_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="제목" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/rg_option_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/rb_descending"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/rg_option_1">
+
+                <RadioButton
+                    android:id="@+id/rb_ascending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="오름차순" />
+
+                <RadioButton
+                    android:id="@+id/rb_descending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내림차순" />
+
+            </RadioGroup>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--app:layout_constraintTop_toBottomOf="@id/btn_filtering"-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_notice"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="13dp"
-            app:layout_constraintTop_toBottomOf="@id/btn_filtering"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sort_options_layout"
             tools:listitem="@layout/fragment_notice_list_item" />
 
 

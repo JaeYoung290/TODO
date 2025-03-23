@@ -1,4 +1,4 @@
-package com.example.domain.notice.useCase.database
+package com.example.domain.notice.useCase.database.notice
 
 data class DatabaseUseCases(
     val getNoticeByCategory: GetNoticeByCategory,
@@ -7,4 +7,5 @@ data class DatabaseUseCases(
     val favoriteNotice: FavoriteNotice,
     val getDeletedItem: GetDeletedItem,
     val getFavoriteItem: GetFavoriteItem,
+    val getItemsByKeywords: GetItemsByKeywords
 )

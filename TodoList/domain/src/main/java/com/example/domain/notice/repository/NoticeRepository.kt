@@ -1,6 +1,7 @@
 package com.example.domain.notice.repository
 
 import com.example.domain.notice.model.Notice
+import kotlinx.coroutines.flow.Flow
 
 interface NoticeRepository {
 
@@ -17,5 +18,7 @@ interface NoticeRepository {
     suspend fun getDeletedItem(): List<Notice>
 
     suspend fun getFavoriteItem(): List<Notice>
+
+    suspend fun getItemsByKeywords(category: String, keywords: List<String>): List<Notice>
 
 }

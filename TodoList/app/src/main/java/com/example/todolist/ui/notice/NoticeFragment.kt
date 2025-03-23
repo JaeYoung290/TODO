@@ -1,27 +1,18 @@
 package com.example.todolist.ui.notice
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.data.notice.repository.WebPageRepositoryImpl
-import com.example.domain.notice.repository.NoticeRepository
-import com.example.domain.notice.repository.WebPageRepository
 import com.example.todolist.databinding.FragmentNoticeBinding
 import com.example.todolist.ui.notice.adapter.NoticeRecyclerAdapter
 import com.example.todolist.ui.notice.adapter.SwipeToDeleteCallback
 import com.example.todolist.ui.notice.viewmodel.NoticeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NoticeFragment : Fragment() {
@@ -49,7 +40,8 @@ class NoticeFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = NoticeRecyclerAdapter(emptyList(), viewModel)
 
-            val swipeHandler = SwipeToDeleteCallback(requireContext(), adapter as NoticeRecyclerAdapter, viewModel)
+            val swipeHandler =
+                SwipeToDeleteCallback(requireContext(), adapter as NoticeRecyclerAdapter, viewModel)
             val itemTouchHelper = ItemTouchHelper(swipeHandler)
             itemTouchHelper.attachToRecyclerView(this)
         }
@@ -82,10 +74,49 @@ class NoticeFragment : Fragment() {
                 button.isSelected = true
 
                 when (category) {
+                    "favorites", "hidden" -> {
+                        binding.btnFiltering.isEnabled = false
+                        binding.btnFiltering.isChecked = false
+                        binding.btnFiltering.isClickable = false
+                    }
+
+                    else -> {
+                        binding.btnFiltering.isEnabled = true
+                        binding.btnFiltering.isClickable = true
+                    }
+                }
+
+                when (category) {
                     "favorites" -> viewModel.getFavoriteItem()
                     "hidden" -> viewModel.getDeletedItem()
-                    else -> viewModel.getNoticeByCategory(category)
+                    else -> {
+                        if (binding.btnFiltering.isChecked) {
+                            viewModel.getItemsByKeywords(category)
+                        } else {
+                            viewModel.getNoticeByCategory(category)
+                        }
+                    }
                 }
+            }
+        }
+
+        binding.btnFiltering.setOnCheckedChangeListener { _, isChecked ->
+            val selectedCategory = allButtons.find { it.first.isSelected }?.second ?: "general"
+
+            if (isChecked) {
+                viewModel.getItemsByKeywords(selectedCategory)
+            } else {
+                viewModel.getNoticeByCategory(selectedCategory)
+            }
+        }
+
+        binding.ibSort.setOnClickListener {
+            binding.ibSort.isSelected = !binding.ibSort.isSelected
+
+            if (binding.ibSort.isSelected) {
+                binding.sortOptionsLayout.visibility = View.VISIBLE
+            } else {
+                binding.sortOptionsLayout.visibility = View.GONE
             }
         }
     }

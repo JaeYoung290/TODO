@@ -1,6 +1,8 @@
 package com.example.data.notice.repository
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import com.example.data.notice.source.notice.NoticeDao
 import com.example.data.notice.source.notice.NoticeEntity
@@ -37,10 +39,7 @@ class WebPageRepositoryImpl(private val noticeDao: NoticeDao) : WebPageRepositor
                         val date = dates[i].ownText()
 
                         val noticeEntity = NoticeEntity(
-                            title = title,
-                            url = href,
-                            date = date,
-                            category = category
+                            title = title, url = href, date = date, category = category
                         )
                         noticeDao.insert(noticeEntity)
                     }
