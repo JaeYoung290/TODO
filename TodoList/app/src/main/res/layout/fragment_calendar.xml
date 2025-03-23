@@ -43,8 +43,8 @@
             android:id="@+id/text_view_user_name"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text=""
-            android:textSize="16dp"
+            android:text="@string/text_default"
+            android:textSize="18dp"
             android:gravity="center"
             android:layout_marginStart="24dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,18 +55,19 @@
             android:layout_width="wrap_content"
             android:layout_height="34dp"
             style="@style/Theme.TodoList.OptionButtonStyle"
-            android:text="logout"
+            android:text="@string/add_calendar_logout_text"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/todo_list">
+            app:layout_constraintTop_toTopOf="@id/text_view_user_name"
+            app:layout_constraintBottom_toBottomOf="@id/text_view_user_name">
         </android.widget.Button>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/todo_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="13dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/activity_calendar_todo_list_item"
             app:layout_constraintStart_toStartOf="parent"

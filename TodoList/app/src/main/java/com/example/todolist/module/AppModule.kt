@@ -10,6 +10,8 @@ import com.example.data.notice.repository.NoticeRepositoryImpl
 import com.example.data.notice.repository.WebPageRepositoryImpl
 import com.example.data.notice.source.notice.NoticeDao
 import com.example.data.notice.source.notice.NoticeDatabase
+import com.example.data.naver.calendar.repository.remote.datasource.calendar.RemoteCalendarDataSourceImpl
+import com.example.data.naver.calendar.repository.remote.datasource.user.RemoteUserDataSourceImpl
 import com.example.domain.naver.calendar.repository.NaverApiRepository
 import com.example.domain.notice.repository.NoticeRepository
 import com.example.domain.notice.repository.WebPageRepository
@@ -35,8 +37,11 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun provideNaverApiRepository() : NaverApiRepository {
-        return NaverApiRepositoryImpl()
+    fun provideNaverApiRepository(
+        remoteUserDataSourceImpl: RemoteUserDataSourceImpl,
+        remoteCalendarDataSourceImpl: RemoteCalendarDataSourceImpl
+    ) : NaverApiRepository {
+        return NaverApiRepositoryImpl(remoteUserDataSourceImpl, remoteCalendarDataSourceImpl)
     }
 
     @Singleton
@@ -51,6 +56,18 @@ object AppModule {
         todoDao: TodoDao
     ) : TodoRepository {
         return TodoRepository(todoDao)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoteUserDataSource() : RemoteUserDataSourceImpl {
+        return RemoteUserDataSourceImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoteCalendarDataSource() : RemoteCalendarDataSourceImpl {
+        return RemoteCalendarDataSourceImpl()
     }
 
     @Singleton

@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.data.TodoEntity
 import com.example.todolist.databinding.ActivityCalendarTodoListItemBinding
 import com.example.todolist.ui.calendar.adapter.diffutil.TodoDiffUtil
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class CalendarTodoListRecyclerAdapter (
     private var items : List<TodoEntity>,
@@ -27,7 +29,7 @@ class CalendarTodoListRecyclerAdapter (
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.apply {
             binding.textViewTodoTitle.text = items[position].todo
-            binding.textViewTodoDate.text = items[position].date.toString()
+            binding.textViewTodoDate.text = dateFormat(items[position].date)
             binding.todoItemLy.setOnClickListener{
                 listener.onItemClick(items[position].todo, items[position].date.toString())
             }
@@ -36,6 +38,11 @@ class CalendarTodoListRecyclerAdapter (
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    private fun dateFormat(dateInt : Int) : String{
+        val date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).parse(dateInt.toString())
+        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
     }
 
     fun update(newItems: List<TodoEntity>) {
