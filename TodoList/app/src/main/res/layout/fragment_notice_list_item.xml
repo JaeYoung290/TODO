@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="com.example.todolist.ui.notice.viewmodel.NoticeViewModel" />
+
+        <variable
             name="notice"
             type="com.example.domain.notice.model.Notice" />
     </data>
@@ -15,11 +19,15 @@
         android:paddingHorizontal="14dp"
         android:paddingVertical="6dp">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/iv_favorite"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:src="@drawable/ic_star_selected"
+            android:src="@drawable/ic_star"
+            android:scaleType="fitCenter"
+            android:padding="0dp"
+            app:isFavorite="@{notice.isFavorite}"
+            android:onClick="@{() -> viewModel.onFavoriteClicked(notice)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

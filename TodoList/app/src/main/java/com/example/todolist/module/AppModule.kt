@@ -7,10 +7,22 @@ import com.example.data.TodoDatabase
 import com.example.data.TodoRepository
 import com.example.data.naver.calendar.repository.NaverApiRepositoryImpl
 import com.example.data.notice.repository.NoticeRepositoryImpl
+import com.example.data.notice.repository.WebPageRepositoryImpl
 import com.example.data.notice.source.notice.NoticeDao
 import com.example.data.notice.source.notice.NoticeDatabase
 import com.example.domain.naver.calendar.repository.NaverApiRepository
 import com.example.domain.notice.repository.NoticeRepository
+import com.example.domain.notice.repository.WebPageRepository
+import com.example.domain.notice.useCase.database.DatabaseUseCases
+import com.example.domain.notice.useCase.database.DeleteNotice
+import com.example.domain.notice.useCase.database.FavoriteNotice
+import com.example.domain.notice.useCase.database.GetAllNotices
+import com.example.domain.notice.useCase.database.GetDeletedItem
+import com.example.domain.notice.useCase.database.GetFavoriteItem
+import com.example.domain.notice.useCase.database.GetNoticeByCategory
+import com.example.domain.notice.useCase.webPage.OpenUrlByBrowser
+import com.example.domain.notice.useCase.webPage.ParseWebPages
+import com.example.domain.notice.useCase.webPage.WebPageUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,5 +64,33 @@ object AppModule {
     @Provides
     fun provideNoticeRepository(noticeDao: NoticeDao): NoticeRepository {
         return NoticeRepositoryImpl(noticeDao)
+    }
+
+    @Singleton
+    @Provides
+    fun provideWebPageRepository(noticeDao: NoticeDao): WebPageRepository {
+        return WebPageRepositoryImpl(noticeDao)
+    }
+
+    @Singleton
+    @Provides
+    fun provideWebPageUseCases(repository: WebPageRepository): WebPageUseCases {
+        return WebPageUseCases(
+            parseWebPages = ParseWebPages(repository),
+            openUrlByBrowser = OpenUrlByBrowser()
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideDatabaseUseCases(repository: NoticeRepository): DatabaseUseCases {
+        return DatabaseUseCases(
+            getNoticeByCategory = GetNoticeByCategory(repository),
+            getAllNotices = GetAllNotices(repository),
+            deleteNotice = DeleteNotice(repository),
+            favoriteNotice = FavoriteNotice(repository),
+            getDeletedItem = GetDeletedItem(repository),
+            getFavoriteItem = GetFavoriteItem(repository)
+        )
     }
 }

@@ -25,6 +25,26 @@ class NoticeRepositoryImpl @Inject constructor(private val noticeDao: NoticeDao)
         }
     }
 
+    override suspend fun updateDeleteStatus(itemId: Int, isDeleted: Boolean) {
+        noticeDao.updateDeleteStatus(itemId, isDeleted)
+    }
+
+    override suspend fun updateFavoriteStatus(itemId: Int, isFavorite: Boolean) {
+        noticeDao.updateFavoriteStatus(itemId, isFavorite)
+    }
+
+    override suspend fun getDeletedItem(): List<Notice> {
+        return noticeDao.getDeletedItem().map {
+            it.toNotice()
+        }
+    }
+
+    override suspend fun getFavoriteItem(): List<Notice> {
+        return noticeDao.getFavoriteItem().map {
+            it.toNotice()
+        }
+    }
+
     private fun Notice.toEntity(): NoticeEntity {
         return NoticeEntity(
             id = this.id,

@@ -2,58 +2,51 @@ package com.example.todolist.ui.notice.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.notice.model.Notice
 import com.example.todolist.databinding.FragmentNoticeListItemBinding
+import com.example.todolist.ui.notice.adapter.diff.NoticeDiffCallback
+import com.example.todolist.ui.notice.viewmodel.NoticeViewModel
 
-class NoticeRecyclerAdapter(private var dataSet: List<Notice>) :
-    RecyclerView.Adapter<NoticeRecyclerAdapter.ViewHolder>() {
-    private var itemClickListener: OnItemClickListener? = null
+class NoticeRecyclerAdapter(var notices: List<Notice>, private val viewModel: NoticeViewModel) :
+    RecyclerView.Adapter<NoticeRecyclerAdapter.NoticeViewHolder>() {
 
-    interface OnItemClickListener {
-        fun onItemClick(view: View, position: Int, url: String)
-    }
 
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.itemClickListener = listener
-    }
-
-    fun updateData(newDataSet: List<Notice>) {
-        this.dataSet = newDataSet
-        notifyDataSetChanged()
-    }
-
-    class ViewHolder(private val binding: FragmentNoticeListItemBinding) :
+    class NoticeViewHolder(private val binding: FragmentNoticeListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Notice, listener: OnItemClickListener?) {
-            binding.notice = data
-
-            binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    listener?.onItemClick(it, position, data.url)
-                    binding.tvNotice.apply {
-                        isSelected = !isSelected
-                    }
-                    Log.d("MarqueeTest", "isSelected=${binding.tvNotice.isSelected}")
-                }
-            }
+        fun bind(notice: Notice, viewModel: NoticeViewModel) {
+            binding.notice = notice
+            binding.executePendingBindings()
+            binding.viewModel = viewModel
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            FragmentNoticeListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = FragmentNoticeListItemBinding.inflate(layoutInflater, parent, false)
+        return NoticeViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(dataSet[position], itemClickListener)
+    override fun onBindViewHolder(holder: NoticeViewHolder, position: Int) {
+        holder.bind(notices[position], viewModel)
     }
 
-    override fun getItemCount(): Int {
-        return dataSet.size
+    override fun getItemCount() = notices.size
+
+    fun updateNotice(newNotices: List<Notice>) {
+        val diffCallback = NoticeDiffCallback(this.notices, newNotices)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        this.notices = newNotices
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun removeItem(position: Int) {
+        val mutableNotices = notices.toMutableList()
+        mutableNotices.removeAt(position)
+        notices = mutableNotices
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, mutableNotices.size)
     }
 }
