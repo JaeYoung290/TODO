@@ -26,7 +26,6 @@ class NoticeViewModel @Inject constructor(
     val favoriteNotice: LiveData<Boolean> = _favoriteNotice
 
     fun fetchNotices() {
-        Log.d("코드", "뷰모델")
         viewModelScope.launch {
             webPageUseCases.parseWebPages()
             getNoticeByCategory("general")

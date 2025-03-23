@@ -57,7 +57,6 @@ class NoticeFragment : Fragment() {
 
     private fun observeNoticeList() {
         viewModel.noticeList.observe(viewLifecycleOwner) { notices ->
-            Log.d("데이터", "$notices")
             (binding.rvNotice.adapter as? NoticeRecyclerAdapter)?.updateNotice(notices)
         }
     }
