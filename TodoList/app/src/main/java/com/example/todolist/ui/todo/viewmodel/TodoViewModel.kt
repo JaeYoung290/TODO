@@ -2,8 +2,8 @@ package com.example.todolist.ui.todo.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.TodoEntity
-import com.example.data.TodoRepository
+import com.example.domain.todo.TodoEntity
+import com.example.domain.todo.repository.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

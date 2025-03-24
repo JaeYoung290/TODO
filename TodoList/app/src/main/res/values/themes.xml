@@ -81,4 +81,11 @@
         <item name="android:layout_marginEnd">10dp</item>
         <item name="android:textColor">@color/black_50</item>
     </style>
+
+    <style name="Theme.TodoList.Category_button_style">
+        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:paddingVertical">6dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:background">@drawable/option_button</item>
+    </style>
 </resources>

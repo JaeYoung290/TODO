@@ -7,9 +7,9 @@
 
     <fragment
     android:id="@+id/navi_notice"
-    android:name="com.example.todolist.ui.notification.NotificationFragment"
+    android:name="com.example.todolist.ui.notice.NoticeFragment"
     android:label="@string/navi_title_notice"
-    tools:layout="@layout/fragment_notification" />
+    tools:layout="@layout/fragment_notice" />
 
     <fragment
         android:id="@+id/navi_todo"
