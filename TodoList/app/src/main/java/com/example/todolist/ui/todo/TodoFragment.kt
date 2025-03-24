@@ -3,36 +3,47 @@ package com.example.todolist.ui.todo
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.*
+import com.example.data.todo.TodoDatabase
+import com.example.data.todo.TodoRepositoryImpl
+import com.example.domain.todo.TodoEntity
+import com.example.domain.todo.repository.TodoRepository
+import com.example.todolist.R
 import com.example.todolist.ui.todo.viewmodel.*
 import com.example.todolist.databinding.FragmentTodoBinding
 import com.example.todolist.ui.main.MainActivity
-import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class TodoFragment : Fragment() {
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: TodoViewModel by viewModels()
+    private lateinit var viewModel: TodoViewModel
     private lateinit var adapter: TodoAdapter
 
     private val dateFormatInt = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
     private val dateFormatDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val calendar = Calendar.getInstance()
+
+    @Inject
+    lateinit var repository: TodoRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -44,6 +55,12 @@ class TodoFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // ViewModel 설정
+        val database = TodoDatabase.getDatabase(requireContext())
+        val repository = TodoRepositoryImpl(database.todoDao())
+        val factory = TodoViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, factory)[TodoViewModel::class.java]
 
         // RecyclerView 설정
         adapter = TodoAdapter(mutableListOf(), activity as MainActivity)
@@ -100,9 +117,10 @@ class TodoFragment : Fragment() {
 
     private fun attachSwipeToDelete(recyclerView: RecyclerView) {
 
-        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+        val itemTouchHelper = ItemTouchHelper(object :
+            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
-                return 0.65f
+                return 0.45f
             }
 
             override fun onMove(
@@ -128,25 +146,69 @@ class TodoFragment : Fragment() {
                 actionState: Int,
                 isCurrentlyActive: Boolean
             ) {
-                val threshold = 0.65f * recyclerView.width
+                val itemView = viewHolder.itemView
+                val threshold = 0.45f * recyclerView.width
 
-                val limitedDX = if (kotlin.math.abs(dX) > threshold) {
-                    threshold * if (dX > 0) 1 else -1  // 방향 유지
+                val itemHeight = itemView.bottom - itemView.top
+
+                val swipeWidth = Math.min(Math.abs(dX), itemView.width.toFloat())
+
+                val backgroundColor = if (kotlin.math.abs(dX) >= threshold) {
+                    Color.parseColor("#E82561") // 빨간색 배경 (삭제)
                 } else {
-                    dX
+                    Color.parseColor("#D3D3D3") // 회색 배경 (기본 상태)
                 }
 
-                val alpha = 1.0f - (kotlin.math.abs(limitedDX) / recyclerView.width) * 1.53
-                viewHolder.itemView.alpha = alpha.toFloat()
-                super.onChildDraw(c, recyclerView, viewHolder, limitedDX, dY, actionState, isCurrentlyActive)
+                // 배경 색상 그리기
+                val swipeRect = RectF(
+                    itemView.right + dX,
+                    itemView.top.toFloat(),
+                    itemView.right.toFloat(),
+                    itemView.bottom.toFloat()
+                )
+                val backgroundPaint = Paint().apply {
+                    color = backgroundColor
+                }
+                c.drawRect(swipeRect, backgroundPaint)
+
+                val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)
+                icon?.let {
+                    val intrinsicWidth = it.intrinsicWidth
+                    val intrinsicHeight = it.intrinsicHeight
+                    val iconMargin = 20.dpToPx(requireContext())
+                    val iconFixedPosition = 60.dpToPx(requireContext())
+                    val left = if (Math.abs(dX) <= iconFixedPosition) itemView.right - swipeWidth + iconMargin else itemView.right - iconFixedPosition + iconMargin
+                    val right = left + intrinsicWidth
+                    val top = itemView.top + (itemHeight - intrinsicHeight) / 2
+                    val bottom = top + intrinsicHeight
+                    it.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
+                    it.draw(c)
+                }
+
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
             }
 
-            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            override fun clearView(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) {
                 super.clearView(recyclerView, viewHolder)
                 viewHolder.itemView.alpha = 1.0f
             }
         })
         itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    private fun Int.dpToPx(context: Context): Float {
+        return this * context.resources.displayMetrics.density
     }
 
     private fun saveTodos() {

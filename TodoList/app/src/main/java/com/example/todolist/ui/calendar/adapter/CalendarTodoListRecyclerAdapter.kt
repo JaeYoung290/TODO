@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.TodoEntity
+import com.example.domain.todo.TodoEntity
 import com.example.todolist.databinding.ActivityCalendarTodoListItemBinding
 import com.example.todolist.ui.calendar.adapter.diffutil.TodoDiffUtil
 import java.text.SimpleDateFormat

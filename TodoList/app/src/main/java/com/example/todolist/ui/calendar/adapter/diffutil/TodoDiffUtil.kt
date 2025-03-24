@@ -1,7 +1,7 @@
 package com.example.todolist.ui.calendar.adapter.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.data.TodoEntity
+import com.example.domain.todo.TodoEntity
 
 class TodoDiffUtil (
     private val oldList: List<TodoEntity>,

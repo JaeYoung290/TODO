@@ -31,18 +31,23 @@
         <EditText
             android:id="@+id/edit_text_todo"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:background="#00FFFFFF"
             android:ems="10"
+            android:gravity="start|center_vertical"
             android:hint="@string/todo_edit_hint"
-            android:inputType="text"
+            android:inputType="textMultiLine"
+            android:lines="2"
+            android:maxLines="5"
+            android:scrollHorizontally="false"
+            android:text="@string/text_default"
+            android:textColor="@color/black"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/checkbox_checkbox"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/linear_layout_touch_blocker"

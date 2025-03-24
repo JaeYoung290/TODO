@@ -1,9 +1,10 @@
-package com.example.data
+package com.example.data.todo
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.domain.todo.TodoEntity
 
 @Database(entities = [TodoEntity::class], version = 1, exportSchema = false)
 abstract class TodoDatabase : RoomDatabase() {
