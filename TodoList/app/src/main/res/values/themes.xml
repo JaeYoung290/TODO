@@ -25,6 +25,28 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
+    <style name="Theme.TodoList.ToggleLeftButtonStyle">
+        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:paddingVertical">6dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:background">@drawable/toggle_left_button</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textColor">@drawable/toggle_text_color_selector</item>
+    </style>
+
+    <style name="Theme.TodoList.ToggleRightButtonStyle">
+        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:paddingVertical">6dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:background">@drawable/toggle_right_button</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textColor">@drawable/toggle_text_color_selector</item>
+    </style>
+
     <style name="Theme.TodoList.ScrollViewStyle">
         <item name="android:fadingEdgeLength">40dp</item>
         <item name="android:requiresFadingEdge">horizontal</item>

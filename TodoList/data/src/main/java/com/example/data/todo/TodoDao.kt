@@ -6,7 +6,16 @@ import com.example.domain.todo.TodoEntity
 @Dao
 interface TodoDao {
     @Query("SELECT * FROM todo_table ORDER BY date ASC")
-    suspend fun getTodosAll(): List<TodoEntity>
+    suspend fun getTodosAllASC(): List<TodoEntity>
+
+    @Query("SELECT * FROM todo_table ORDER BY date DESC")
+    suspend fun getTodosAllDESC(): List<TodoEntity>
+
+    @Query("SELECT * FROM todo_table WHERE todo LIKE :keyword ORDER BY date ASC")
+    suspend fun getTodosByKeywordASC(keyword : String): List<TodoEntity>
+
+    @Query("SELECT * FROM todo_table WHERE todo LIKE :keyword ORDER BY date DESC")
+    suspend fun getTodosByKeywordDESC(keyword : String): List<TodoEntity>
 
     @Query("SELECT * FROM todo_table WHERE date = :date")
     suspend fun getTodosByDate(date: Int): List<TodoEntity>

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="calendar_asc_button_text">오름차순</string>
+    <string name="calendar_desc_button_text">내림차순</string>
+    <string name="calendar_keyword_edit_text">Todo 검색어</string>
     <string name="add_calendar_need_naver_login">네이버 로그인이 필요합니다.</string>
     <string name="add_calendar_logout_text">로그아웃</string>
     <string name="add_calendar_dialog_not_choice_default">미선택</string>
-    <string name="add_calendar_dialog_lock_msg">먼저 시작 시간을 선택해 주세요</string>
+    <string name="add_calendar_dialog_lock_msg">시작 시간을 먼저 선택해 주세요</string>
     <string name="add_calendar_dialog_title">캘린더에 추가</string>
     <string name="add_calendar_dialog_positive_btn">확인</string>
     <string name="add_calendar_dialog_negative_btn">취소</string>

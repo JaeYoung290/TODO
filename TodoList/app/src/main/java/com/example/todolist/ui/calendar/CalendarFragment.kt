@@ -1,11 +1,14 @@
 package com.example.todolist.ui.calendar
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -18,10 +21,15 @@ import com.example.todolist.ui.calendar.adapter.CalendarTodoListRecyclerAdapter
 import com.example.todolist.ui.calendar.dialog.AddCalendarDialog
 import com.example.todolist.ui.calendar.viewmodel.CalendarViewModel
 import com.example.todolist.ui.main.viewmodel.MainViewModel
+import com.google.android.material.internal.TextWatcherAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.conflate
 
 @AndroidEntryPoint
 class CalendarFragment : Fragment() {
@@ -53,6 +61,7 @@ class CalendarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setSnackbar()
+        setToggleASC()
         binding.progressbarTodoList.isVisible = false
 
         adapter = CalendarTodoListRecyclerAdapter(viewModel.todoList.toList(), object : CalendarTodoListRecyclerAdapter.OnItemClickListener{
@@ -109,11 +118,31 @@ class CalendarFragment : Fragment() {
             }
         })
         setFragmentResultListener()
+        viewModel.searchEtDebounce(binding.editTextKeyword.textChangedFlow())
+        binding.toggleButtonAsc.setOnClickListener {
+            setToggleASC()
+        }
+        binding.toggleButtonDesc.setOnClickListener {
+            setToggleDESC()
+        }
     }
 
-    private fun setTodoList() {
+    private fun EditText.textChangedFlow(): Flow<String> { // edittext 에서 flow 반환
+        return callbackFlow<String> {
+            val watcher = @SuppressLint("RestrictedApi") object : TextWatcherAdapter() {
+                override fun afterTextChanged(p0: Editable) {
+                    trySend(p0.toString())
+                    binding.progressbarTodoList.isVisible = true
+                }
+            }
+            addTextChangedListener(watcher)
+            awaitClose { removeTextChangedListener(watcher)
+            }
+        }.conflate()
+    }
+    private fun setTodoList(keyword: String = "") {
         binding.progressbarTodoList.isVisible = true
-        viewModel.setTodoList()
+        viewModel.setTodoList(keyword)
     }
 
     private fun setFragmentResultListener() {
@@ -180,6 +209,9 @@ class CalendarFragment : Fragment() {
         binding.todoList.isVisible = false
         binding.textViewUserName.isVisible = false
         binding.buttonNaverLogout.isVisible = false
+        binding.toggleButtonDesc.isVisible = false
+        binding.toggleButtonAsc.isVisible = false
+        binding.editTextKeyword.isVisible = false
     }
 
     private fun unlockAfterNaverLogin(){
@@ -188,6 +220,9 @@ class CalendarFragment : Fragment() {
         binding.todoList.isVisible = true
         binding.textViewUserName.isVisible = true
         binding.buttonNaverLogout.isVisible = true
+        binding.toggleButtonDesc.isVisible = true
+        binding.toggleButtonAsc.isVisible = true
+        binding.editTextKeyword.isVisible = true
         viewModel.userName.value = MainViewModel.NaverLoginData.userName
         setTodoList()
     }
@@ -199,5 +234,17 @@ class CalendarFragment : Fragment() {
     }
     private fun showSnackbar(msg : String) {
         snackbar.setText(msg).show()
+    }
+    private fun setToggleASC() {
+        viewModel.toggleASC = true
+        binding.toggleButtonAsc.isChecked = true
+        binding.toggleButtonDesc.isChecked = false
+        setTodoList(binding.editTextKeyword.text.toString())
+    }
+    private fun setToggleDESC() {
+        viewModel.toggleASC = false
+        binding.toggleButtonAsc.isChecked = false
+        binding.toggleButtonDesc.isChecked = true
+        setTodoList(binding.editTextKeyword.text.toString())
     }
 }

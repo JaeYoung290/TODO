@@ -10,6 +10,9 @@ import com.example.domain.todo.repository.TodoRepository
 import com.example.todolist.ui.main.viewmodel.MainViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,6 +25,7 @@ class CalendarViewModel @Inject constructor(
     var userName = MutableLiveData<String>("---")
     var addScheduleSuccess = MutableLiveData<Boolean?>(null)
     var setTodoListSuccess = MutableLiveData<Boolean?>(null)
+        var toggleASC = true
 
     fun getNaverUserName() {
         val accessToken = MainViewModel.NaverLoginData.accessToken
@@ -61,9 +65,33 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun setTodoList() {
+    fun setTodoList(keyword: String = "") {
+        todoList = mutableListOf()
         viewModelScope.launch(Dispatchers.IO) {
-            setTodoListSuccess.postValue(todoList.addAll(todoRepository.getTodosAll()))
+            if(toggleASC) {
+                if(keyword == "") {
+                    setTodoListSuccess.postValue(todoList.addAll(todoRepository.getTodosAllASC()))
+                }else {
+                    setTodoListSuccess.postValue(todoList.addAll(todoRepository.getTodosByKeywordASC(keyword)))
+                }
+            }else {
+                if(keyword == "") {
+                    setTodoListSuccess.postValue(todoList.addAll(todoRepository.getTodosAllDESC()))
+                }else {
+                    setTodoListSuccess.postValue(todoList.addAll(todoRepository.getTodosByKeywordDESC(keyword)))
+                }
+            }
         }
     }
+
+        fun searchEtDebounce (flow : Flow<String>) {
+            viewModelScope.launch {
+                flow
+                    .debounce(500) // 500ms 동안 입력이 없으면 실행 (aplly 내에서 실행 불가)
+                    .distinctUntilChanged()
+                    .collect { text ->
+                        setTodoList(text)
+                    }
+            }
+        }
 }
