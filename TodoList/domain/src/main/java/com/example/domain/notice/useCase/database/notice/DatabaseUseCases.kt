@@ -7,5 +7,6 @@ data class DatabaseUseCases(
     val favoriteNotice: FavoriteNotice,
     val getDeletedItem: GetDeletedItem,
     val getFavoriteItem: GetFavoriteItem,
-    val getItemsByKeywords: GetItemsByKeywords
+    val getItemsByKeywords: GetItemsByKeywords,
+    val getNoticeByCategorySorted: GetNoticeByCategorySorted
 )

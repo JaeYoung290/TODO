@@ -141,6 +141,7 @@
             android:layout_marginTop="12dp"
             android:checked="false"
             android:stateListAnimator="@null"
+            android:background="@drawable/option_button"
             android:textColor="@color/option_button_text_color"
             android:textOff="필터링"
             android:textOn="필터링"
@@ -148,8 +149,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hsv_category" />
 
-        <android.widget.Button
-            android:id="@+id/btn_date"
+        <ToggleButton
+            android:id="@+id/btn_sort_default"
             style="@style/Theme.TodoList.Category_button_style"
             android:layout_width="wrap_content"
             android:layout_height="34dp"
@@ -158,7 +159,10 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="6dp"
             android:stateListAnimator="@null"
-            android:text="날짜"
+            android:textColor="@color/option_button_text_color"
+            android:textOff="정렬: 기본값"
+            android:textOn="정렬: 기본값"
+            android:checked="false"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@id/btn_filtering"
             app:layout_constraintTop_toBottomOf="@+id/hsv_category" />
@@ -177,7 +181,7 @@
             android:text="키워드 추가"
             android:textColor="@color/violet_245"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@id/btn_date"
+            app:layout_constraintStart_toEndOf="@id/btn_sort_default"
             app:layout_constraintTop_toBottomOf="@+id/hsv_category" />
 
         <ImageButton
@@ -243,12 +247,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="내림차순" />
-
             </RadioGroup>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--app:layout_constraintTop_toBottomOf="@id/btn_filtering"-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_notice"
             android:layout_width="match_parent"

@@ -36,6 +36,9 @@ class NoticeViewModel @Inject constructor(
     private val _keywordList = MutableLiveData<List<Keyword>>()
     val keywordList: LiveData<List<Keyword>> = _keywordList
 
+    private val _sortField = MutableLiveData("date")
+    private val _sortOrder = MutableLiveData("NONE")
+
     fun fetchNotices() {
         viewModelScope.launch {
             webPageUseCases.parseWebPages()
@@ -56,8 +59,20 @@ class NoticeViewModel @Inject constructor(
         }
     }
 
-    fun sortListBy(sortBy: SortOption, isAsc: Boolean): String {
-        return coreUseCases.sortListUseCase.getSortByString(sortBy, isAsc)
+    fun getNoticeByCategorySorted(category: String = "general") {
+        viewModelScope.launch {
+            try {
+                val notice = databaseUseCases.getNoticeByCategorySorted(
+                    category, _sortField.value ?: "date",
+                    _sortOrder.value ?: "NONE"
+                )
+                _noticeList.value = notice
+                _favoriteNotice.value = false
+                Log.d("데이터", notice.toString())
+            } catch (e: Exception) {
+                Log.e("NoticeViewModel", "Error(NoticeViewModel): ${e.message}")
+            }
+        }
     }
 
     fun getItemsByKeywords(category: String) {
@@ -127,5 +142,13 @@ class NoticeViewModel @Inject constructor(
 
     fun onItemClicked(notice: Notice) {
         openUrlByBrowser.openUrlByBrowser(notice.url)
+    }
+
+    fun setSortField(sortField: String) {
+        _sortField.value = sortField
+    }
+
+    fun setSortOrder(sortOrder: String) {
+        _sortOrder.value = sortOrder
     }
 }

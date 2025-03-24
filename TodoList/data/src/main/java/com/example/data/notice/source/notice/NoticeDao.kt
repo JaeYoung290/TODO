@@ -23,6 +23,9 @@ interface NoticeDao {
     @Query("SELECT * FROM notice WHERE category = :category AND isDeleted = 0")
     suspend fun getItemsByCategory(category: String): List<NoticeEntity>
 
+    @RawQuery
+    suspend fun getItemsByCategorySorted(query: SupportSQLiteQuery): List<NoticeEntity>
+
     @Query("UPDATE notice SET isDeleted = :isDeleted WHERE id = :itemId")
     suspend fun updateDeleteStatus(itemId: Int, isDeleted: Boolean)
 

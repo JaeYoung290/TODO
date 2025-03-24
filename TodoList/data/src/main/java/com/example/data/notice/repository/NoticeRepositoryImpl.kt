@@ -2,6 +2,7 @@ package com.example.data.notice.repository
 
 import androidx.room.util.query
 import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.example.data.notice.source.notice.NoticeDao
 import com.example.data.notice.source.notice.NoticeEntity
 import com.example.domain.notice.model.Notice
@@ -25,6 +26,17 @@ class NoticeRepositoryImpl @Inject constructor(private val noticeDao: NoticeDao)
 
     override suspend fun getItemsByCategory(category: String): List<Notice> {
         return noticeDao.getItemsByCategory(category).map {
+            it.toNotice()
+        }
+    }
+
+    override suspend fun getItemsByCategorySorted(
+        category: String,
+        sortField: String,
+        sortOrder: String
+    ): List<Notice> {
+        val query = createQuery(category, sortField, sortOrder)
+        return noticeDao.getItemsByCategorySorted(query).map {
             it.toNotice()
         }
     }
@@ -53,6 +65,16 @@ class NoticeRepositoryImpl @Inject constructor(private val noticeDao: NoticeDao)
         return noticeDao.getItemsByKeywords(category, keywords).map {
             it.toNotice()
         }
+    }
+
+    private fun createQuery(category: String, sortField: String = "date", sortOrder: String = "NONE"): SupportSQLiteQuery {
+        val baseQuery = "SELECT * FROM notice WHERE category = '$category' AND isDeleted = 0"
+        val query = when (sortOrder) {
+            "ASC" -> "$baseQuery ORDER BY $sortField ASC"
+            "DESC" -> "$baseQuery ORDER BY $sortField DESC"
+            else -> baseQuery
+        }
+        return SimpleSQLiteQuery(query)
     }
 
     private fun Notice.toEntity(): NoticeEntity {

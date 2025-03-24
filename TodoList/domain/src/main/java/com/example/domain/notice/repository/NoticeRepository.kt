@@ -11,6 +11,8 @@ interface NoticeRepository {
 
     suspend fun getItemsByCategory(category: String): List<Notice>
 
+    suspend fun getItemsByCategorySorted(category: String, sortField: String, sortOrder: String): List<Notice>
+
     suspend fun updateDeleteStatus(itemId: Int, isDeleted: Boolean)
 
     suspend fun updateFavoriteStatus(itemId: Int, isFavorite: Boolean)

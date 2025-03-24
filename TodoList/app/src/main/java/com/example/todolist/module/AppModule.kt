@@ -33,6 +33,7 @@ import com.example.domain.notice.useCase.database.notice.GetDeletedItem
 import com.example.domain.notice.useCase.database.notice.GetFavoriteItem
 import com.example.domain.notice.useCase.database.notice.GetItemsByKeywords
 import com.example.domain.notice.useCase.database.notice.GetNoticeByCategory
+import com.example.domain.notice.useCase.database.notice.GetNoticeByCategorySorted
 import com.example.domain.notice.useCase.webPage.OpenUrlByBrowser
 import com.example.domain.notice.useCase.webPage.ParseWebPages
 import com.example.domain.notice.useCase.webPage.WebPageUseCases
@@ -119,6 +120,7 @@ object AppModule {
             getDeletedItem = GetDeletedItem(repository),
             getFavoriteItem = GetFavoriteItem(repository),
             getItemsByKeywords = GetItemsByKeywords(repository),
+            getNoticeByCategorySorted = GetNoticeByCategorySorted(repository)
         )
     }
 

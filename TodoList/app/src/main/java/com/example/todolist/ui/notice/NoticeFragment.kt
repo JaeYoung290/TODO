@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todolist.R
 import com.example.todolist.databinding.FragmentNoticeBinding
 import com.example.todolist.ui.notice.adapter.NoticeRecyclerAdapter
 import com.example.todolist.ui.notice.adapter.SwipeToDeleteCallback
@@ -78,11 +79,19 @@ class NoticeFragment : Fragment() {
                         binding.btnFiltering.isEnabled = false
                         binding.btnFiltering.isChecked = false
                         binding.btnFiltering.isClickable = false
+                        binding.btnSortDefault.isEnabled = false
+                        binding.btnSortDefault.isClickable = false
+                        binding.ibSort.isEnabled = false
+                        binding.ibSort.isClickable = false
                     }
 
                     else -> {
                         binding.btnFiltering.isEnabled = true
                         binding.btnFiltering.isClickable = true
+                        binding.btnSortDefault.isEnabled = true
+                        binding.btnSortDefault.isClickable = true
+                        binding.ibSort.isEnabled = true
+                        binding.ibSort.isClickable = true
                     }
                 }
 
@@ -93,7 +102,11 @@ class NoticeFragment : Fragment() {
                         if (binding.btnFiltering.isChecked) {
                             viewModel.getItemsByKeywords(category)
                         } else {
-                            viewModel.getNoticeByCategory(category)
+                            if (binding.btnSortDefault.isChecked) {
+                                viewModel.getNoticeByCategory(category)
+                            } else {
+                                viewModel.getNoticeByCategorySorted(category)
+                            }
                         }
                     }
                 }
@@ -106,7 +119,7 @@ class NoticeFragment : Fragment() {
             if (isChecked) {
                 viewModel.getItemsByKeywords(selectedCategory)
             } else {
-                viewModel.getNoticeByCategory(selectedCategory)
+                viewModel.getNoticeByCategorySorted(selectedCategory)
             }
         }
 
@@ -117,6 +130,66 @@ class NoticeFragment : Fragment() {
                 binding.sortOptionsLayout.visibility = View.VISIBLE
             } else {
                 binding.sortOptionsLayout.visibility = View.GONE
+            }
+        }
+
+        binding.rgOption1.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.rb_date -> viewModel.setSortField("date")
+                R.id.rb_title -> viewModel.setSortField("title")
+            }
+            updateNoticeList()
+        }
+
+        binding.rgOption2.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.rb_ascending -> viewModel.setSortOrder("ASC")
+                R.id.rb_descending -> viewModel.setSortOrder("DESC")
+            }
+            updateNoticeList()
+        }
+
+        binding.btnSortDefault.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.ibSort.isClickable = false
+                binding.ibSort.isEnabled = false
+                binding.sortOptionsLayout.visibility = View.GONE
+                binding.ibSort.isSelected = false
+                updateNoticeList()
+            } else {
+                binding.ibSort.isClickable = true
+                binding.ibSort.isEnabled = true
+                updateNoticeList()
+            }
+        }
+
+        binding.rgOption1.check(R.id.rb_date)
+        binding.rgOption2.check(R.id.rb_ascending)
+    }
+
+    private fun updateNoticeList() {
+        val selectedCategory = listOf(
+            binding.btnGeneralNotice to "general",
+            binding.btnScholarshipNotice to "scholarship",
+            binding.btnAcademicNotice to "academic",
+            binding.btnEmploymentNotice to "employment",
+            binding.btnFavoritesNotice to "favorites",
+            binding.btnHiddenNotice to "hidden"
+        ).find { it.first.isSelected }?.second ?: "general"
+
+        when (selectedCategory) {
+            "favorites" -> viewModel.getFavoriteItem()
+            "hidden" -> viewModel.getDeletedItem()
+            else -> {
+                if (binding.btnFiltering.isChecked) {
+                    viewModel.getItemsByKeywords(selectedCategory)
+                } else {
+                    if (binding.btnSortDefault.isChecked) {
+                        viewModel.getNoticeByCategory(selectedCategory)
+                    } else {
+                        viewModel.getNoticeByCategorySorted(selectedCategory)
+                    }
+                }
             }
         }
     }
