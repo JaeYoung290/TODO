@@ -45,7 +45,7 @@ class NoticeViewModel @Inject constructor(
     fun fetchKeywords() {
         viewModelScope.launch {
             val allKeywords = keywordUseCases.getAllKeywords()
-            _keywordList.value = allKeywords
+            _keywordList.value = allKeywords.toList()
             Log.d("NoticeViewModel", "All Keywords: ${allKeywords.map { it.keyword }}")
         }
     }

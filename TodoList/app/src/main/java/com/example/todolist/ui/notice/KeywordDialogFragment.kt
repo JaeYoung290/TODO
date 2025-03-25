@@ -51,7 +51,7 @@ class KeywordDialogFragment : DialogFragment() {
         viewModel.keywordList.observe(viewLifecycleOwner) { keywords ->
             this.keywords.clear()
             this.keywords.addAll(keywords)
-            adapter.updateData(this.keywords)
+            adapter.updateData(this.keywords.toList())
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
