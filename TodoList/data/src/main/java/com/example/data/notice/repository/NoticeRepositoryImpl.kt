@@ -62,7 +62,9 @@ class NoticeRepositoryImpl @Inject constructor(private val noticeDao: NoticeDao)
     }
 
     override suspend fun getItemsByKeywords(category: String, keywords: List<String>): List<Notice> {
-        return noticeDao.getItemsByKeywords(category, keywords).map {
+        val formattedKeywords = keywords.map { "%$it%" }
+
+        return noticeDao.getItemsByKeywords(category, formattedKeywords).map {
             it.toNotice()
         }
     }

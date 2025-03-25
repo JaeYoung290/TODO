@@ -38,7 +38,7 @@ interface NoticeDao {
     @Query("SELECT * FROM notice WHERE isFavorite = 1 AND isDeleted = 0")
     suspend fun getFavoriteItem(): List<NoticeEntity>
 
-    @Query("SELECT * FROM notice JOIN notice_fts ON notice.id == notice_fts.rowid WHERE notice_fts.title MATCH :keyword AND notice.category = :category AND notice.isDeleted = 0")
+    @Query("SELECT * FROM notice JOIN notice_fts ON notice.id == notice_fts.rowid WHERE notice_fts.title LIKE :keyword AND notice.category = :category AND notice.isDeleted = 0")
     suspend fun getItemsByKeyword(category: String, keyword: String): List<NoticeEntity>
 
     @Transaction
