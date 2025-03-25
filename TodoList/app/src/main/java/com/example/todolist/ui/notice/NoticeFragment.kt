@@ -1,6 +1,7 @@
 package com.example.todolist.ui.notice
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.domain.notice.model.Keyword
 import com.example.todolist.R
 import com.example.todolist.databinding.FragmentNoticeBinding
 import com.example.todolist.ui.notice.adapter.NoticeRecyclerAdapter
@@ -165,6 +167,12 @@ class NoticeFragment : Fragment() {
 
         binding.rgOption1.check(R.id.rb_date)
         binding.rgOption2.check(R.id.rb_ascending)
+
+        binding.btnAddKeyword.setOnClickListener {
+            val dialogFragment = KeywordDialogFragment()
+            Log.d("데이터", viewModel.keywordUseCases.getAllKeywords.toString())
+            dialogFragment.show(parentFragmentManager, "keywordDialog")
+        }
     }
 
     private fun updateNoticeList() {

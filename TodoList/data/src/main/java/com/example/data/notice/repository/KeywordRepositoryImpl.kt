@@ -18,6 +18,10 @@ class KeywordRepositoryImpl @Inject constructor(private val keywordDao: KeywordD
         keywordDao.insert(keywordEntity)
     }
 
+    override suspend fun deleteKeywordById(id: Int) {
+        keywordDao.deleteKeywordById(id)
+    }
+
     private fun KeywordEntity.toKeyword(): Keyword {
         return Keyword(
             id = this.id,

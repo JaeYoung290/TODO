@@ -2,5 +2,6 @@ package com.example.domain.notice.useCase.database.keyword
 
 data class KeywordUseCases(
     val getAllKeywords: GetAllKeywords,
-    val insertKeyword: InsertKeyword
+    val insertKeyword: InsertKeyword,
+    val deleteKeywordById: DeleteKeywordById
 )

@@ -8,4 +8,6 @@ interface KeywordRepository {
 
     suspend fun insertKeyword(keyword: Keyword)
 
+    suspend fun deleteKeywordById(id: Int)
+
 }

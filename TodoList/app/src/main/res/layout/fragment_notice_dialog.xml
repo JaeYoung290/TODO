@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AddCalendarDialogFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_dialog"
+            android:layout_width="300dp"
+            android:layout_height="350dp"
+            android:background="@color/violet_229"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/text_view_dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="키워드 추가"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edit_text_inner_keyword"
+                style="@style/Theme.TodoList.DialogInnerEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/dialog_inner_item"
+                android:hint="키워드 입력"
+                android:privateImeOptions="defaultInputType=korean"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_view_dialog_title" />
+
+            <ImageButton
+                android:id="@+id/image_button_add_keyword"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/ic_keyword_add"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_text_inner_keyword"
+                app:layout_constraintEnd_toEndOf="@+id/edit_text_inner_keyword"
+                app:layout_constraintTop_toTopOf="@+id/edit_text_inner_keyword" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_keywords"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="16dp"
+                android:background="@drawable/dialog_inner_item"
+                app:layout_constraintBottom_toTopOf="@id/button_dialog_negative"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_text_inner_keyword"
+                tools:listitem="@layout/fragment_keyword_dialog_list_item" />
+
+            <android.widget.Button
+                android:id="@+id/button_dialog_negative"
+                style="@style/Theme.TodoList.DialogNegativeButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:text="@string/add_calendar_dialog_negative_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/button_dialog_positive"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <android.widget.Button
+                android:id="@+id/button_dialog_positive"
+                style="@style/Theme.TodoList.DialogPositiveButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:text="@string/add_calendar_dialog_positive_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/button_dialog_negative" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -171,7 +170,7 @@ class TodoFragment : Fragment() {
                 }
                 c.drawRect(swipeRect, backgroundPaint)
 
-                val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)
+                val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_keyword_delete)
                 icon?.let {
                     val intrinsicWidth = it.intrinsicWidth
                     val intrinsicHeight = it.intrinsicHeight

@@ -20,8 +20,7 @@ import com.example.domain.notice.model.Keyword
 import com.example.domain.notice.repository.KeywordRepository
 import com.example.domain.notice.repository.NoticeRepository
 import com.example.domain.notice.repository.WebPageRepository
-import com.example.domain.notice.useCase.core.CoreUseCases
-import com.example.domain.notice.useCase.core.SortListUseCase
+import com.example.domain.notice.useCase.database.keyword.DeleteKeywordById
 import com.example.domain.notice.useCase.database.keyword.GetAllKeywords
 import com.example.domain.notice.useCase.database.keyword.InsertKeyword
 import com.example.domain.notice.useCase.database.keyword.KeywordUseCases
@@ -38,9 +37,11 @@ import com.example.domain.notice.useCase.webPage.OpenUrlByBrowser
 import com.example.domain.notice.useCase.webPage.ParseWebPages
 import com.example.domain.notice.useCase.webPage.WebPageUseCases
 import com.example.domain.todo.repository.TodoRepository
+import com.example.todolist.ui.notice.KeywordDialogFragment
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -127,14 +128,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideCoreUseCases(): CoreUseCases {
-        return CoreUseCases(
-            sortListUseCase = SortListUseCase()
-        )
-    }
-
-    @Singleton
-    @Provides
     fun provideOpenUrlByBrowser(@ApplicationContext context: Context): OpenUrlByBrowser {
         return OpenUrlByBrowser(context)
     }
@@ -157,7 +150,8 @@ object AppModule {
     fun provideKeywordUseCases(repository: KeywordRepository): KeywordUseCases {
         return KeywordUseCases(
             getAllKeywords = GetAllKeywords(repository),
-            insertKeyword = InsertKeyword(repository)
+            insertKeyword = InsertKeyword(repository),
+            deleteKeywordById = DeleteKeywordById(repository)
         )
     }
 }

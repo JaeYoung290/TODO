@@ -7,15 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.notice.model.Keyword
 import com.example.domain.notice.model.Notice
-import com.example.domain.notice.model.SortOption
-import com.example.domain.notice.useCase.core.CoreUseCases
 import com.example.domain.notice.useCase.database.keyword.KeywordUseCases
 import com.example.domain.notice.useCase.database.notice.DatabaseUseCases
 import com.example.domain.notice.useCase.webPage.OpenUrlByBrowser
 import com.example.domain.notice.useCase.webPage.WebPageUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.security.Key
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,8 +20,7 @@ class NoticeViewModel @Inject constructor(
     private val webPageUseCases: WebPageUseCases,
     private val databaseUseCases: DatabaseUseCases,
     private val openUrlByBrowser: OpenUrlByBrowser,
-    private val keywordUseCases: KeywordUseCases,
-    private val coreUseCases: CoreUseCases
+    val keywordUseCases: KeywordUseCases,
 ) : ViewModel() {
 
     private val _noticeList = MutableLiveData<List<Notice>>()
@@ -43,6 +39,14 @@ class NoticeViewModel @Inject constructor(
         viewModelScope.launch {
             webPageUseCases.parseWebPages()
             getNoticeByCategory("general")
+        }
+    }
+
+    fun fetchKeywords() {
+        viewModelScope.launch {
+            val allKeywords = keywordUseCases.getAllKeywords()
+            _keywordList.value = allKeywords
+            Log.d("NoticeViewModel", "All Keywords: ${allKeywords.map { it.keyword }}")
         }
     }
 
@@ -68,7 +72,6 @@ class NoticeViewModel @Inject constructor(
                 )
                 _noticeList.value = notice
                 _favoriteNotice.value = false
-                Log.d("데이터", notice.toString())
             } catch (e: Exception) {
                 Log.e("NoticeViewModel", "Error(NoticeViewModel): ${e.message}")
             }
@@ -150,5 +153,13 @@ class NoticeViewModel @Inject constructor(
 
     fun setSortOrder(sortOrder: String) {
         _sortOrder.value = sortOrder
+    }
+
+    fun insertKeyword(keyword: Keyword) {
+        viewModelScope.launch {
+            keywordUseCases.insertKeyword(keyword)
+            val allKeywords = keywordUseCases.getAllKeywords()
+            fetchKeywords()
+        }
     }
 }
