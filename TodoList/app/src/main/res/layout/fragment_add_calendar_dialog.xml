@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -10,7 +9,7 @@
         tools:context=".AddCalendarDialogFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/dialog_ly"
+            android:id="@+id/layout_dialog"
             android:layout_width="300dp"
             android:layout_height="350dp"
             android:background="@color/violet_229"
@@ -20,33 +19,125 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
+                android:id="@+id/text_view_dialog_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="제목"
-                android:textSize="20dp"
+                android:text="@string/add_calendar_dialog_title"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
             </TextView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_inner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dialog_inner_item"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edit_text_inner_title"
+                    style="@style/Theme.TodoList.DialogInnerEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:hint="@string/add_calendar_dialog_title_et_hint"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+                </EditText>
+                <EditText
+                    android:id="@+id/edit_text_inner_detail"
+                    style="@style/Theme.TodoList.DialogInnerEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:hint="@string/add_calendar_dialog_detail_et_hint"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_text_inner_title"
+                    app:layout_constraintStart_toStartOf="parent">
+                </EditText>
+                <android.widget.Button
+                    android:id="@+id/button_inner_date"
+                    style="@style/Theme.TodoList.DialogInnerButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:text="@string/add_calendar_dialog_date_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_text_inner_detail"
+                    app:layout_constraintStart_toStartOf="parent">
+                </android.widget.Button>
+                <TextView
+                    android:id="@+id/text_view_inner_date"
+                    style="@style/Theme.TodoList.DialogInnerMiniTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_calendar_dialog_not_choice_default"
+                    app:layout_constraintTop_toTopOf="@+id/button_inner_date"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_inner_date"
+                    app:layout_constraintEnd_toEndOf="parent">
+                </TextView>
+                <android.widget.Button
+                    android:id="@+id/button_inner_start_time"
+                    style="@style/Theme.TodoList.DialogInnerButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:text="@string/add_calendar_dialog_start_time_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/button_inner_date"
+                    app:layout_constraintStart_toStartOf="parent">
+                </android.widget.Button>
+                <TextView
+                    android:id="@+id/text_view_inner_start_time"
+                    style="@style/Theme.TodoList.DialogInnerMiniTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_calendar_dialog_not_choice_default"
+                    app:layout_constraintTop_toTopOf="@+id/button_inner_start_time"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_inner_start_time"
+                    app:layout_constraintEnd_toEndOf="parent">
+                </TextView>
+                <android.widget.Button
+                    android:id="@+id/button_inner_end_time"
+                    style="@style/Theme.TodoList.DialogInnerButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:text="@string/add_calendar_dialog_end_time_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/button_inner_start_time"
+                    app:layout_constraintStart_toStartOf="parent">
+                </android.widget.Button>
+                <TextView
+                    android:id="@+id/text_view_inner_end_time"
+                    style="@style/Theme.TodoList.DialogInnerMiniTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_calendar_dialog_not_choice_default"
+                    app:layout_constraintTop_toTopOf="@+id/button_inner_end_time"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_inner_end_time"
+                    app:layout_constraintEnd_toEndOf="parent">
+                </TextView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             <android.widget.Button
-                android:id="@+id/dialog_negative_btn"
+                android:id="@+id/button_dialog_negative"
                 style="@style/Theme.TodoList.DialogNegativeButtonStyle"
-                android:text="취소"
+                android:text="@string/add_calendar_dialog_negative_btn"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/dialog_positive_btn"
+                app:layout_constraintEnd_toStartOf="@id/button_dialog_positive"
                 app:layout_constraintBottom_toBottomOf="parent">
             </android.widget.Button>
             <android.widget.Button
-                android:id="@+id/dialog_positive_btn"
+                android:id="@+id/button_dialog_positive"
                 style="@style/Theme.TodoList.DialogPositiveButtonStyle"
-                android:text="확인"
+                android:text="@string/add_calendar_dialog_positive_btn"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
-                app:layout_constraintStart_toEndOf="@id/dialog_negative_btn"
+                app:layout_constraintStart_toEndOf="@id/button_dialog_negative"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
             </android.widget.Button>

@@ -16,7 +16,78 @@
         android:id="@+id/calendar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.notification.NotificationFragment">
+        tools:context=".ui.notice.NoticeFragment">
+
+        <TextView
+            android:id="@+id/text_view_naver_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_calendar_need_naver_login"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button_naver_login">
+        </TextView>
+        <com.navercorp.nid.oauth.view.NidOAuthLoginButton
+            android:id="@+id/button_naver_login"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_view_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/text_default"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:layout_marginStart="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </TextView>
+        <android.widget.Button
+            android:id="@+id/button_naver_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            style="@style/Theme.TodoList.OptionButtonStyle"
+            android:text="@string/add_calendar_logout_text"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_view_user_name"
+            app:layout_constraintBottom_toBottomOf="@id/text_view_user_name">
+        </android.widget.Button>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/todo_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="13dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/activity_calendar_todo_list_item"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_user_name"
+            app:layout_constraintBottom_toBottomOf="parent">
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/progressbar_todo_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:indeterminate="true"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:indeterminateTint="@color/violet_162"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+        </ProgressBar>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

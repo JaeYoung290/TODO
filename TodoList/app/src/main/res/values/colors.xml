@@ -7,5 +7,8 @@
     <color name="violet_205">#CDC1FF</color>
     <color name="violet_162">#A294F9</color>
     <color name="gray">#E6E6E6</color>
+    <color name="bright_gray">#F4F4F4</color>
     <color name="bright_black">#4A4A4A</color>
+    <color name="black_50">#80000000</color>
+    <color name="light_gray">#d6d6d6</color>
 </resources>

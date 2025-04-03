@@ -7,17 +7,15 @@
 
     <fragment
     android:id="@+id/navi_notice"
-    android:name="com.example.todolist.ui.notification.NotificationFragment"
+    android:name="com.example.todolist.ui.notice.NoticeFragment"
     android:label="@string/navi_title_notice"
-    tools:layout="@layout/fragment_notification" />
+    tools:layout="@layout/fragment_notice" />
 
-    <!-- 현재 미개발
     <fragment
-        android:id="@+id/add"
-        android:name="com.example.todolist.ui."
-        android:label="@string/navi_title_add"
-        tools:layout="@layout/" />
-    -->
+        android:id="@+id/navi_todo"
+        android:name="com.example.todolist.ui.todo.TodoFragment"
+        android:label="@string/navi_title_todo"
+        tools:layout="@layout/fragment_todo" />
 
     <fragment
         android:id="@+id/navi_calendar"
